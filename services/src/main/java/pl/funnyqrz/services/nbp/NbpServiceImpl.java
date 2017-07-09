@@ -44,7 +44,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
 
     @Override
     @Transactional
-    public ExchangeRateEntity getExchangeRateFromNBP() {
+    public ExchangeRateEntity getExchangeRate() {
         return convertStringToExchangeRateEntity(readString());
     }
 

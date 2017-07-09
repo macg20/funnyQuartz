@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -25,7 +26,7 @@ public class ExchangeRateEntity {
     private BigDecimal eurExchangeRate; //euro
     private BigDecimal chfExchangeRate; //frank szwajcarski
     private BigDecimal gbfExchangeRate; // funt szterling
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
     @Version
     @Column(name = "version")
@@ -71,11 +72,11 @@ public class ExchangeRateEntity {
         this.gbfExchangeRate = gbfExchangeRate;
     }
 
-    public LocalDate getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDate createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 

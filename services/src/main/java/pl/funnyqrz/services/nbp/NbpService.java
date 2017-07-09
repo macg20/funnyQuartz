@@ -7,4 +7,6 @@ public interface NbpService {
 
     ExchangeRateEntity getExchangeRate();
 
+    boolean echo();
+
 }

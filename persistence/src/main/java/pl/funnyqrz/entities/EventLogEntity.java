@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @GenericGenerator(name = "eventlogsequence",
@@ -22,18 +23,18 @@ public class EventLogEntity {
     @GeneratedValue(generator ="eventlogsequence" )
     private BigInteger id;
     private String description;
-    private LocalDate date;
+    private LocalDateTime date;
 
     public EventLogEntity() {
 
     }
 
-    public EventLogEntity(String description, LocalDate date) {
+    public EventLogEntity(String description, LocalDateTime date) {
         this.description = description;
         this.date = date;
     }
 
-    public EventLogEntity(BigInteger id, String description, LocalDate date) {
+    public EventLogEntity(BigInteger id, String description, LocalDateTime date) {
         this.id = id;
         this.description = description;
         this.date = date;
@@ -55,11 +56,11 @@ public class EventLogEntity {
         this.description = description;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

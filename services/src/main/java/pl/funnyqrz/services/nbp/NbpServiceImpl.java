@@ -23,7 +23,6 @@ import pl.funnyqrz.utils.exceptions.EmptyHostException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,7 +35,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
     private static final String CURRENCY_USD = "USD";
     private static final String CURRENCY_EUR = "EUR";
     private static final String CURRENCY_CHF = "CHF";
-    private static final String CURRENCY_GBF = "GBF";
+    private static final String CURRENCY_GBP = "GBP";
     private static final String CURRENCY_RATES = "rates";
     private static final String CURRENCY_MID = "mid";
     private static final int DEFAULT_TABLE_INDEX = 0;
@@ -136,7 +135,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
                 case CURRENCY_CHF:
                     exchangeRateEntity.setChfExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
                     break;
-                case CURRENCY_GBF:
+                case CURRENCY_GBP:
                     exchangeRateEntity.setGbfExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
                     break;
             }

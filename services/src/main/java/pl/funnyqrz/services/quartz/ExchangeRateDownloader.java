@@ -12,6 +12,7 @@ import pl.funnyqrz.services.nbp.NbpService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Component
 public class ExchangeRateDownloader extends AbstractService implements Job {
@@ -30,7 +31,7 @@ public class ExchangeRateDownloader extends AbstractService implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        getLogger().info("[Quartz] Download from NBP Api " + LocalDateTime.now());
+        getLogger().info("[Quartz] Download from NBP Api " + LocalTime.now() + " " + LocalDate.now());
         downloadAndSave();
         getLogger().info("[Quartz] Saved exchange rate");
     }

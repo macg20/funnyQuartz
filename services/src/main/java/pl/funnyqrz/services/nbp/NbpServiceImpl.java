@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,12 +23,11 @@ import pl.funnyqrz.utils.exceptions.EmptyHostException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Service
 public class NbpServiceImpl extends AbstractService implements NbpService {
@@ -39,6 +39,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
     private static final String CURRENCY_GBF = "GBF";
     private static final String CURRENCY_RATES = "rates";
     private static final String CURRENCY_MID = "mid";
+    private static final int DEFAULT_TABLE_INDEX = 0;
 
     @Value("${nbp.api.url}")
     private String host;
@@ -52,8 +53,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
     @Override
     @Transactional
     public ExchangeRateEntity getExchangeRate() {
-        getLogger().info("If host available: " + String.valueOf(echo()));
-        return convertStringToExchangeRateEntity(readString());
+        return echo() == true ? convertStringToExchangeRateEntity(readString()) : new ExchangeRateEntity();
     }
 
     @Override
@@ -68,8 +68,8 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
         }
     }
 
-    private BufferedReader getBufferedReader() throws IOException, EmptyHostException {
-        if (host == null)
+    private BufferedReader getBufferedReader() throws EmptyHostException, IOException {
+        if (Strings.isNullOrEmpty(host))
             throw new EmptyHostException("Host cannot be null!");
 
         URL urlAddress = new URL(host);
@@ -110,29 +110,38 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
     private ExchangeRateEntity convertStringToExchangeRateEntity(String value) {
         ExchangeRateEntity exchangeRateEntity = new ExchangeRateEntity();
         if (!Strings.isNullOrEmpty(value)) {
-            JSONArray json = new JSONArray(value);
-            JSONObject jsonObject = json.getJSONObject(0);
-            JSONArray jsonArray = jsonObject.getJSONArray(CURRENCY_RATES);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                switch (jsonArray.getJSONObject(i).get(CURRENCY_CODE).toString()) {
-                    case CURRENCY_USD:
-                        exchangeRateEntity.setUsdExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
-                        break;
-                    case CURRENCY_EUR:
-                        exchangeRateEntity.setEurExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
-                        break;
-                    case CURRENCY_CHF:
-                        exchangeRateEntity.setChfExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
-                        break;
-                    case CURRENCY_GBF:
-                        exchangeRateEntity.setGbfExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
-                        break;
-                }
+            try {
+                jsonToExchangeRateEntity(value, exchangeRateEntity);
+            } catch (JSONException jsonException) {
+                getLogger().error("Error while parsing..",jsonException);
+                eventLogService.save(new EventLogEntity(jsonException.getMessage(), LocalDateTime.now()));
+                return exchangeRateEntity;
             }
-            exchangeRateEntity.setCreateDate(LocalDateTime.now());
-
         }
         return exchangeRateEntity;
+    }
+
+    private void jsonToExchangeRateEntity(String value, ExchangeRateEntity exchangeRateEntity) throws JSONException {
+        JSONArray json = new JSONArray(value);
+        JSONObject jsonObject = json.getJSONObject(DEFAULT_TABLE_INDEX);
+        JSONArray jsonArray = jsonObject.getJSONArray(CURRENCY_RATES);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            switch (jsonArray.getJSONObject(i).get(CURRENCY_CODE).toString()) {
+                case CURRENCY_USD:
+                    exchangeRateEntity.setUsdExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
+                    break;
+                case CURRENCY_EUR:
+                    exchangeRateEntity.setEurExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
+                    break;
+                case CURRENCY_CHF:
+                    exchangeRateEntity.setChfExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
+                    break;
+                case CURRENCY_GBF:
+                    exchangeRateEntity.setGbfExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
+                    break;
+            }
+        }
+        exchangeRateEntity.setCreateDate(LocalDateTime.now());
     }
 
 }

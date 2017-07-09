@@ -1,7 +1,7 @@
 package pl.funnyqrz.services.quartz;
 
-import jdk.nashorn.internal.scripts.JO;
 import org.quartz.JobDetail;
+import org.quartz.SimpleScheduleBuilder;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.quartz.spi.JobFactory;
@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.Properties;
 
 @Configuration
-public class SchedulerConfig implements Serializable{
+public class SchedulerConfig implements Serializable {
 
 
     @Bean

@@ -10,6 +10,7 @@ import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.eventlog.EventLogService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class ExchangeRateServiceImpl extends AbstractService implements ExchangeRateService {
@@ -25,7 +26,7 @@ public class ExchangeRateServiceImpl extends AbstractService implements Exchange
 
     @Override
     public void save(ExchangeRateEntity exchangeRateEntity) {
-        EventLogEntity eventLogEntity = new EventLogEntity("Save exchange rate", LocalDate.now());
+        EventLogEntity eventLogEntity = new EventLogEntity("Save exchange rate", LocalDateTime.now());
         eventLogService.save(eventLogEntity);
         exchangeRateRepository.save(exchangeRateEntity);
     }

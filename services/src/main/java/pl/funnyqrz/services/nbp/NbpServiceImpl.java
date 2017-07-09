@@ -2,9 +2,11 @@ package pl.funnyqrz.services.nbp;
 
 
 import com.google.common.base.Strings;
-import pl.funnyqrz.services.AbstractService;
-import pl.funnyqrz.services.eventlog.EventLogService;
-import pl.funnyqrz.utils.exceptions.EmptyHostException;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.EventLogEntity;
 import pl.funnyqrz.entities.ExchangeRateEntity;
+import pl.funnyqrz.services.AbstractService;
+import pl.funnyqrz.services.eventlog.EventLogService;
+import pl.funnyqrz.utils.exceptions.EmptyHostException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +26,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Service
 public class NbpServiceImpl extends AbstractService implements NbpService {
@@ -45,7 +52,20 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
     @Override
     @Transactional
     public ExchangeRateEntity getExchangeRate() {
+        getLogger().info("If host available: " + String.valueOf(echo()));
         return convertStringToExchangeRateEntity(readString());
+    }
+
+    @Override
+    public boolean echo() {
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpGet httpGet = new HttpGet(host);
+            HttpResponse response = httpClient.execute(httpGet);
+            return response.getStatusLine().getStatusCode() == HttpStatus.SC_OK;
+        } catch (IOException e) {
+            eventLogService.save(new EventLogEntity("Cannot connet with url: " + host, LocalDateTime.now()));
+            return false;
+        }
     }
 
     private BufferedReader getBufferedReader() throws IOException, EmptyHostException {
@@ -70,18 +90,18 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
 
         } catch (MalformedURLException e) {
             getLogger().error("error while establish connect", e);
-            eventLogService.save(new EventLogEntity("error while establish connect, class:" + getClass().toString(), LocalDate.now()));
+            eventLogService.save(new EventLogEntity("error while establish connect, class:" + getClass().toString(), LocalDateTime.now()));
 
         } catch (IOException e) {
             getLogger().error("error while establish connect", e);
-            eventLogService.save(new EventLogEntity("error while establish connect, class:" + getClass().toString(), LocalDate.now()));
+            eventLogService.save(new EventLogEntity("error while establish connect, class:" + getClass().toString(), LocalDateTime.now()));
         } catch (EmptyHostException e) {
             getLogger().error("Host cannot be null, complete url in properties", e);
-            eventLogService.save(new EventLogEntity("Host cannot be null, complete url in properties, class:" + getClass().toString(), LocalDate.now()));
+            eventLogService.save(new EventLogEntity("Host cannot be null, complete url in properties, class:" + getClass().toString(), LocalDateTime.now()));
 
         } finally {
             getLogger().info("Successful download from NBP API");
-            eventLogService.save(new EventLogEntity("Successful download from NBP API:" + getClass().toString(), LocalDate.now()));
+            eventLogService.save(new EventLogEntity("Successful download from NBP API:" + getClass().toString(), LocalDateTime.now()));
 
         }
         return Strings.nullToEmpty(null);
@@ -109,7 +129,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
                         break;
                 }
             }
-            exchangeRateEntity.setCreateDate(LocalDate.now());
+            exchangeRateEntity.setCreateDate(LocalDateTime.now());
 
         }
         return exchangeRateEntity;

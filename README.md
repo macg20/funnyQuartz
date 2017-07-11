@@ -1,1 +1,1 @@
-Exchange Rate downloader from NBP API.
+Simple implemntation Quratz , which gets exchange rates from NBP API

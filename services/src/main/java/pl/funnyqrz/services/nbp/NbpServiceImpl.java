@@ -18,6 +18,8 @@ import pl.funnyqrz.entities.EventLogEntity;
 import pl.funnyqrz.entities.ExchangeRateEntity;
 import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.eventlog.EventLogService;
+import pl.funnyqrz.services.exchangerate.ExchangeRateService;
+import pl.funnyqrz.services.helpers.ExchangeRateValidator;
 import pl.funnyqrz.utils.exceptions.EmptyHostException;
 
 import java.io.BufferedReader;
@@ -43,15 +45,16 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
     @Value("${nbp.api.url}")
     private String host;
     private EventLogService eventLogService;
+    private ExchangeRateService exchangeRateService;
 
     @Autowired
-    public NbpServiceImpl(EventLogService eventLogService) {
+    public NbpServiceImpl(EventLogService eventLogService, ExchangeRateService exchangeRateService) {
         this.eventLogService = eventLogService;
+        this.exchangeRateService = exchangeRateService;
     }
 
-    @Override
-    @Transactional
-    public ExchangeRateEntity getExchangeRate() {
+
+    private ExchangeRateEntity getExchangeRate() {
         return echo() == true ? convertStringToExchangeRateEntity(readString()) : new ExchangeRateEntity();
     }
 
@@ -64,6 +67,16 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
         } catch (IOException e) {
             eventLogService.save(new EventLogEntity("Cannot connet with url: " + host, LocalDateTime.now()));
             return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void downloadAndSaveExchangeRate() {
+        ExchangeRateEntity exchangeRateEntity = getExchangeRate();
+        if (!ExchangeRateValidator.validate(exchangeRateEntity)) {
+            getLogger().info("Saving exchange rate");
+            exchangeRateService.save(exchangeRateEntity);
         }
     }
 
@@ -112,7 +125,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
             try {
                 jsonToExchangeRateEntity(value, exchangeRateEntity);
             } catch (JSONException jsonException) {
-                getLogger().error("Error while parsing..",jsonException);
+                getLogger().error("Error while parsing..", jsonException);
                 eventLogService.save(new EventLogEntity(jsonException.getMessage(), LocalDateTime.now()));
                 return exchangeRateEntity;
             }

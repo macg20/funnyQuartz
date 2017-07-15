@@ -5,10 +5,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.funnyqrz.entities.ExchangeRateEntity;
 import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.exchangerate.ExchangeRateService;
-import pl.funnyqrz.services.helpers.ExchangeRateValidator;
 import pl.funnyqrz.services.nbp.NbpService;
 
 import java.time.LocalDate;
@@ -23,18 +21,10 @@ public class ExchangeRateDownloader extends AbstractService implements Job {
     private ExchangeRateService exchangeRateService;
 
 
-    public void downloadAndSave() {
-        ExchangeRateEntity exchangeRateEntity = nbpService.getExchangeRate();
-        if (!ExchangeRateValidator.validate(exchangeRateEntity)) {
-            getLogger().info("[Quartz] Saved exchange rate");
-            exchangeRateService.save(exchangeRateEntity);
-        }
-    }
-
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         getLogger().info("[Quartz] Download from NBP Api " + LocalTime.now() + " " + LocalDate.now());
-        downloadAndSave();
+        nbpService.downloadAndSaveExchangeRate();
 
     }
 }

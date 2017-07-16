@@ -103,15 +103,15 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
             return stringBuilder.toString();
 
         } catch (MalformedURLException e) {
-            getLogger().error("error while establish connect", e);
+            getLogger().error("Error while establish connect", e);
             eventLogService.save(new EventLogEntity("error while establish connect, class:" + getClass().toString(), LocalDateTime.now()));
 
         } catch (IOException e) {
-            getLogger().error("error while establish connect", e);
-            eventLogService.save(new EventLogEntity("error while establish connect, class:" + getClass().toString(), LocalDateTime.now()));
+            getLogger().error("Error while establish connect", e);
+            eventLogService.save(new EventLogEntity("Error while establish connect, class:" + getClass().toString(), LocalDateTime.now()));
         } catch (InvalidHostException e) {
-            getLogger().error("Host cannot be null, complete url in properties", e);
-            eventLogService.save(new EventLogEntity("Host cannot be null, complete url in properties, class:" + getClass().toString(), LocalDateTime.now()));
+            getLogger().error("Invalid host, enter a valid host in properties", e);
+            eventLogService.save(new EventLogEntity("Invalid host, enter a valid host in properties, class:" + getClass().toString(), LocalDateTime.now()));
 
         } finally {
             getLogger().info("Successful download from NBP API");

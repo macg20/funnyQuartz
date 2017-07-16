@@ -1,4 +1,4 @@
-package pl.funnyqrz.services.quartz;
+package pl.funnyqrz.services.quartz.configuration;
 
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;

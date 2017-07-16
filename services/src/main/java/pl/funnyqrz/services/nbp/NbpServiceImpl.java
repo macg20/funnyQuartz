@@ -65,6 +65,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
             HttpResponse response = httpClient.execute(httpGet);
             return response.getStatusLine().getStatusCode() == HttpStatus.SC_OK;
         } catch (IOException e) {
+            getLogger().error("Cannot connet with url: " + host, e);
             eventLogService.save(new EventLogEntity("Cannot connet with url: " + host, LocalDateTime.now()));
             return false;
         }

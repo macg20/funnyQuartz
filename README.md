@@ -5,5 +5,12 @@ Technologies:
 *Spring Boot
 *Spring Data JPA
 *Spring AOP
-*Java Mail
 *Postgres
+
+TODO:
+*Email Service 
+- send reports with exchange rate(every day)
+- send reports with prediction for next week(machine learning)
+
+*Schema version
+Flyway or Liquibase

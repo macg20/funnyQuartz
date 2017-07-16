@@ -20,7 +20,8 @@ import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.eventlog.EventLogService;
 import pl.funnyqrz.services.exchangerate.ExchangeRateService;
 import pl.funnyqrz.services.helpers.ExchangeRateValidator;
-import pl.funnyqrz.utils.exceptions.EmptyHostException;
+import pl.funnyqrz.utils.exceptions.InvalidHostExceptions;
+import pl.funnyqrz.utils.resource.PropertiesValidator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -81,9 +82,9 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
         }
     }
 
-    private BufferedReader getBufferedReader() throws EmptyHostException, IOException {
-        if (Strings.isNullOrEmpty(host))
-            throw new EmptyHostException("Host cannot be null!");
+    private BufferedReader getBufferedReader() throws InvalidHostExceptions, IOException {
+        if (!PropertiesValidator.isEmpty(host) || !PropertiesValidator.isValidUrl(host))
+            throw new InvalidHostExceptions("Invalid host!");
 
         URL urlAddress = new URL(host);
         HttpURLConnection httpsURLConnection = (HttpURLConnection) urlAddress.openConnection();
@@ -108,7 +109,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
         } catch (IOException e) {
             getLogger().error("error while establish connect", e);
             eventLogService.save(new EventLogEntity("error while establish connect, class:" + getClass().toString(), LocalDateTime.now()));
-        } catch (EmptyHostException e) {
+        } catch (InvalidHostExceptions e) {
             getLogger().error("Host cannot be null, complete url in properties", e);
             eventLogService.save(new EventLogEntity("Host cannot be null, complete url in properties, class:" + getClass().toString(), LocalDateTime.now()));
 

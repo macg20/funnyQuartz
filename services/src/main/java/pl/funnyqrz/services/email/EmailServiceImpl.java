@@ -1,12 +1,11 @@
 package pl.funnyqrz.services.email;
 
+import org.springframework.mail.SimpleMailMessage;
 import pl.funnyqrz.services.AbstractService;
-import pl.funnyqrz.utils.message.Message;
 
 public class EmailServiceImpl extends AbstractService implements EmailService {
 
     @Override
-    public void sendMessage(Message message) {
-
+    public void sendMessage(SimpleMailMessage message) {
     }
 }

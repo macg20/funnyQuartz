@@ -1,8 +1,8 @@
 package pl.funnyqrz.services.email;
 
-import pl.funnyqrz.utils.message.Message;
+import org.springframework.mail.SimpleMailMessage;
 
 public interface EmailService {
 
-    void sendMessage(Message message);
+    void sendMessage(SimpleMailMessage message);
 }

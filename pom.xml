@@ -11,6 +11,7 @@
         <module>persistence</module>
         <module>services</module>
         <module>utils</module>
+        <module>commons</module>
         <module>app</module>
     </modules>
     <packaging>pom</packaging>
@@ -34,6 +35,11 @@
         <dependencies>
 
             <!--Module-->
+            <dependency>
+                <groupId>pl.funnyqrz</groupId>
+                <artifactId>commons</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
             <dependency>
                 <groupId>pl.funnyqrz</groupId>
                 <artifactId>services</artifactId>

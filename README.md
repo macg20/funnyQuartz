@@ -1,11 +1,11 @@
 Exchange Rate downloader from NBP API.
 
 Technologies:
-*Quartz
-*Spring Boot
-*Spring Data JPA
-*Spring AOP
-*Postgres
+- Quartz
+- Spring Boot
+- Spring Data JPA
+- Spring AOP
+- Postgres
 
 TODO:
 *Email Service 

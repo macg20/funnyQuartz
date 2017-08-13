@@ -8,9 +8,9 @@ Technologies:
 - Postgres
 
 TODO:
-*Email Service 
+- Email Service 
 - send reports with exchange rate(every day)
 - send reports with prediction for next week(machine learning)
 
-*Schema version
+- Schema version
 Flyway or Liquibase

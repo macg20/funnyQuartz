@@ -28,7 +28,6 @@ public class Application {
 
     public static void main(String[] args) throws IOException {
 
-        printProperties();
         SpringApplication.run(Application.class, args);
     }
 

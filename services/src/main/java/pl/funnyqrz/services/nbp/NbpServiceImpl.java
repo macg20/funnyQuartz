@@ -83,7 +83,8 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
     }
 
     private BufferedReader getBufferedReader() throws InvalidHostException, IOException {
-        if (!PropertiesValidator.isEmpty(host) || !PropertiesValidator.isValidUrl(host))
+        getLogger().error("Show api url:" + host);
+        if (!PropertiesValidator.isEmpty(host) || PropertiesValidator.isValidUrl(host))
             throw new InvalidHostException("Invalid host!");
 
         URL urlAddress = new URL(host);

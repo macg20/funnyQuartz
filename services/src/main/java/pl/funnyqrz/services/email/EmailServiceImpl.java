@@ -34,7 +34,7 @@ public class EmailServiceImpl extends AbstractService implements EmailService {
         this.pdfReportRenderer = pdfReportRenderer;
     }
 
-    public MimeMessage createMessage(Set<String> receivers) {
+    public MimeMessage createMessageWithReport(String title, String descritpion, Set<String> receivers) {
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper;

@@ -7,4 +7,4 @@ import java.math.BigInteger;
 
 public interface EventLogRepository extends JpaRepository<EventLogEntity, BigInteger> {
 
-        }
+}

@@ -1,4 +1,4 @@
-package pl.funnyqrz.utils.exceptions;
+package pl.funnyqrz.exceptions;
 
 public class ApplicationException extends Exception {
 

@@ -10,7 +10,4 @@ Technologies:
 TODO:
 - Email Service 
 - send reports with exchange rate(every day)
-- send reports with prediction for next week(machine learning)
-
-- Schema version
-Flyway or Liquibase
+- Schema version (Flyway or Liquibase)

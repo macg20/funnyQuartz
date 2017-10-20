@@ -20,7 +20,7 @@ import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.eventlog.EventLogService;
 import pl.funnyqrz.services.exchangerate.ExchangeRateService;
 import pl.funnyqrz.services.helpers.ExchangeRateValidator;
-import pl.funnyqrz.utils.exceptions.InvalidHostException;
+import pl.funnyqrz.exceptions.InvalidHostException;
 import pl.funnyqrz.utils.resource.PropertiesValidator;
 
 import java.io.BufferedReader;

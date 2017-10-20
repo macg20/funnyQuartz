@@ -48,13 +48,17 @@ public class EmailAspectService extends AbstractService {
         ExchangeRateEntity lastExchangeRateEntity = null;
 
         try {
+
              lastExchangeRateEntity = findLastExchangeRateEntity();
+
         } catch (NotFoundDatabaseRecord notFoundDatabaseRecord) {
             getLogger().error("Error occured!", notFoundDatabaseRecord);
         }
 
         try {
-            report = pdfReportRenderer.renderReport(lastExchangeRateEntity);
+
+            report = pdfReportRenderer.renderReport();
+
         } catch (FileNotFoundException e) {
             getLogger().error("Error occured!", e);
         } catch (DocumentException e) {
@@ -64,9 +68,11 @@ public class EmailAspectService extends AbstractService {
 
         Set<EmailAddress> addresses = new HashSet<>();
         addresses.add(new EmailAddress("aaaa@gmail.com"));
-        MimeMessage mimeMessage = messageService.createMessageWithReport(NameUtils.createDefaultMessageTitleWithDate(),
-                "DESCRIPTION",addresses, null);
 
+        MimeMessage mimeMessage = messageService.createMessageWithReport(NameUtils.createDefaultMessageTitleWithDate(),
+                "DESCRIPTION",addresses, report);
+
+        emailService.sendMessage(mimeMessage);
 
     }
 

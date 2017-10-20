@@ -11,3 +11,4 @@ TODO:
 - Email Service 
 - send reports with exchange rate(every day)
 - Schema version (Flyway or Liquibase)
+- User registration

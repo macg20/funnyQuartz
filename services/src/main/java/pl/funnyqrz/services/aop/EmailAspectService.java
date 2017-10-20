@@ -5,6 +5,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.ExchangeRateEntity;
@@ -33,6 +34,13 @@ public class EmailAspectService extends AbstractService {
     private ExchangeRateRepository exchangeRateRepository;
     private PDFReportRenderer pdfReportRenderer;
 
+    @Autowired
+    public EmailAspectService(EmailService emailService, MessageService messageService, ExchangeRateRepository exchangeRateRepository, PDFReportRenderer pdfReportRenderer) {
+        this.emailService = emailService;
+        this.messageService = messageService;
+        this.exchangeRateRepository = exchangeRateRepository;
+        this.pdfReportRenderer = pdfReportRenderer;
+    }
 
     @Before("execution(* pl.funnyqrz.services.nbp.NbpServiceImpl.downloadAndSaveExchangeRate(..))")
     public void logBeforeAllMethodsJobExecute1(JoinPoint joinPoint) {

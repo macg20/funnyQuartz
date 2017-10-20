@@ -3,6 +3,7 @@ package pl.funnyqrz.services.pdf;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Service;
+import pl.funnyqrz.entities.ExchangeRateEntity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,6 +42,11 @@ public class PDFReportRendererImpl implements PDFReportRenderer {
         document.close();
 
         return pdfFile;
+    }
+
+    @Override
+    public File renderReport(ExchangeRateEntity exchangeRateEntity) throws FileNotFoundException, DocumentException {
+        return null;
     }
 
     private void addMetaData(Document document) {

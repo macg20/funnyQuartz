@@ -75,7 +75,7 @@ public class EmailAspectService extends AbstractService {
         // TODO user register and get users addresses
 
         Set<EmailAddress> addresses = new HashSet<>();
-        addresses.add(new EmailAddress("mgieon2629@gmail.com"));
+        addresses.add(new EmailAddress("aaaaaa@gmail.com"));
 
         MimeMessage mimeMessage = messageService.createMessageWithReport(NameUtils.createDefaultMessageTitleWithDate(),
                 "DESCRIPTION",addresses, report);

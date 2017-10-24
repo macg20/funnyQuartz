@@ -1,13 +1,15 @@
 Exchange Rate downloader from NBP API.
 
-Technologies:
+Current Technologies:
 - Quartz
 - Spring Boot
 - Spring Data JPA
 - Spring AOP
 - Postgres
 
-TODO:
-- send reports with exchange rate(every day)
+
+
+Todo:
 - Schema version (Flyway or Liquibase)
-- User registration (Spring security) - oauth2
+- User registration (Spring security - oauth2)
+- future (Angular 4 or React): Secure Currency calculator

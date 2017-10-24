@@ -65,17 +65,17 @@ public class EmailAspectService extends AbstractService {
 
         try {
 
-            report = pdfReportRenderer.renderReport();
+            report = pdfReportRenderer.renderReport(lastExchangeRateEntity);
 
         } catch (FileNotFoundException e) {
-            getLogger().error("Error occured!", e);
+            getLogger().error("Error occurred!", e);
         } catch (DocumentException e) {
-            getLogger().error("Error occured!", e);
+            getLogger().error("Error occurred!", e);
         }
         // TODO user register and get users addresses
 
         Set<EmailAddress> addresses = new HashSet<>();
-        addresses.add(new EmailAddress("aaaa@gmail.com"));
+        addresses.add(new EmailAddress("mgieon2629@gmail.com"));
 
         MimeMessage mimeMessage = messageService.createMessageWithReport(NameUtils.createDefaultMessageTitleWithDate(),
                 "DESCRIPTION",addresses, report);

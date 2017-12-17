@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 public class EmailServiceImpl extends AbstractService implements EmailService {
 
-
     private JavaMailSender javaMailSender;
     private MessageService messageService;
 

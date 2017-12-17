@@ -7,7 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import pl.funnyqrz.services.AbstractService;
-import pl.funnyqrz.services.pdf.PDFReportRenderer;
+import pl.funnyqrz.services.reports.PDFReportRenderer;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -20,7 +20,7 @@ public class EmailServiceImpl extends AbstractService implements EmailService {
 
     private static final String SUBJECT = "Daily Exchange Rate Report";
     private static final String ATTACHMENT_PREFIX = "report_exchange_rate";
-    private static final String ATTACHMENT_SUFFIX = ".pdf";
+    private static final String ATTACHMENT_SUFFIX = ".reports";
 
     private JavaMailSender javaMailSender;
     private PDFReportRenderer pdfReportRenderer;
@@ -52,7 +52,7 @@ public class EmailServiceImpl extends AbstractService implements EmailService {
         } catch (FileNotFoundException e) {
             getLogger().error("Error while renedering report!", e);
         } catch (DocumentException e) {
-            getLogger().error("Error while create pdf document!", e);
+            getLogger().error("Error while create reports document!", e);
         }
 
         return message;

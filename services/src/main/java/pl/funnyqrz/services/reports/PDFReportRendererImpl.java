@@ -1,4 +1,4 @@
-package pl.funnyqrz.services.pdf;
+package pl.funnyqrz.services.reports;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -27,7 +27,7 @@ public class PDFReportRendererImpl implements PDFReportRenderer {
         Document document = new Document();
         File pdfFile = null;
         try {
-            pdfFile = File.createTempFile("report" + LocalDate.now().toString(), ".pdf");
+            pdfFile = File.createTempFile("report" + LocalDate.now().toString(), ".reports");
         } catch (IOException e) {
             e.printStackTrace();
         }

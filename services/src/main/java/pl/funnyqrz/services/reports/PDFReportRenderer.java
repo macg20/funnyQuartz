@@ -1,7 +1,6 @@
-package pl.funnyqrz.services.pdf;
+package pl.funnyqrz.services.reports;
 
 import com.itextpdf.text.DocumentException;
-import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;

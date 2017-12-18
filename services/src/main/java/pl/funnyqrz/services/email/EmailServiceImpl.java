@@ -11,9 +11,10 @@ import pl.funnyqrz.services.reports.PDFReportRenderer;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.Collection;
 
 @Service
 public class EmailServiceImpl extends AbstractService implements EmailService {
@@ -34,7 +35,7 @@ public class EmailServiceImpl extends AbstractService implements EmailService {
         this.pdfReportRenderer = pdfReportRenderer;
     }
 
-    public MimeMessage createMessage(Set<String> receivers) {
+    public MimeMessage createMessage(Collection<String> receivers, Collection<File> attachments) {
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper;
@@ -62,6 +63,10 @@ public class EmailServiceImpl extends AbstractService implements EmailService {
     public void sendMessage(MimeMessage message) {
 
         javaMailSender.send(message);
+    }
+
+    public void sendMessage(Collection<String> emailAddress, Collection<File> attachments) {
+
     }
 
     private String createAttachmentFileName() {

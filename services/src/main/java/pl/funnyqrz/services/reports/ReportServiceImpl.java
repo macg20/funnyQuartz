@@ -26,7 +26,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Set<ReportEntity> findReportBetweendDate(LocalDate startDate, LocalDate endDate) {
+    public Set<ReportEntity> findReportBetweenDate(LocalDate startDate, LocalDate endDate) {
         return null;
     }
 

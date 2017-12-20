@@ -14,7 +14,7 @@ public interface ReportService {
 
     ReportEntity findReportByDate(LocalDate date);
 
-    Set<ReportEntity> findReportBetweendDate(LocalDate startDate, LocalDate endDate);
+    Set<ReportEntity> findReportBetweenDate(LocalDate startDate, LocalDate endDate);
 
     ReportEntity findLatestReport();
 

@@ -7,6 +7,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.math.BigInteger;
 import java.sql.Blob;
 import java.time.LocalDate;
 
@@ -24,16 +25,16 @@ public class ReportEntity {
 
     @Id
     @GeneratedValue(generator = "report_sequence")
-    private Long id;
+    private BigInteger id;
     private String fileName;
     private Blob fileContent;
     private LocalDate createDate;
 
-    public Long getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

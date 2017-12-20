@@ -4,35 +4,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import pl.funnyqrz.exceptions.ApplicationException;
 import pl.funnyqrz.services.AbstractService;
-import pl.funnyqrz.services.reports.PDFReportRenderer;
-
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class EmailServiceImpl extends AbstractService implements EmailService {
 
-    private static final String SUBJECT = "Daily Exchange Rate Report";
-    private static final String ATTACHMENT_PREFIX = "report_exchange_rate";
-    private static final String ATTACHMENT_SUFFIX = ".pdf";
 
     private JavaMailSender javaMailSender;
-    private PDFReportRenderer pdfReportRenderer;
     private MessageService messageService;
 
     @Value("${email.from}")
     private String from;
 
     @Autowired
-    public EmailServiceImpl(JavaMailSender javaMailSender, PDFReportRenderer pdfReportRenderer, MessageService messageService) {
+    public EmailServiceImpl(JavaMailSender javaMailSender,
+//                            PDFReportRenderer pdfReportRenderer,
+                            MessageService messageService) {
         this.javaMailSender = javaMailSender;
-        this.pdfReportRenderer = pdfReportRenderer;
+//        this.pdfReportRenderer = pdfReportRenderer;
         this.messageService = messageService;
     }
 
@@ -44,14 +44,32 @@ public class EmailServiceImpl extends AbstractService implements EmailService {
     @Override
     public void sendMessage(String subject, String content, Collection<String> receivers, Collection<File> attachments) throws IOException, MessagingException {
         MimeMessage message = messageService.createMessage(subject, content, "", attachments);
-        receivers.forEach(receiver -> {
-            try {
-                message.setRecipients(Message.RecipientType.TO, receiver);
-                sendMessage(message);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        });
+        receivers.stream()
+                .map(this::convertStringToInternetAddress)
+                .collect(Collectors.toList())
+                .forEach(internetAddress -> {
+                    setMessageReciver(message, internetAddress);
+                    sendMessage(message);
+
+                });
+
+    }
+
+    private void setMessageReciver(MimeMessage message, InternetAddress receiver) {
+        try {
+            message.setRecipient(Message.RecipientType.TO, receiver);
+        } catch (MessagingException ex) {
+            getLogger().error("Occurred error in method [setMessageReciver]", ex);
+            throw new ApplicationException(ex);
+        }
+    }
+
+    private InternetAddress convertStringToInternetAddress(String address) {
+        try {
+            return new InternetAddress(address);
+        } catch (AddressException e) {
+            throw new ApplicationException(e);
+        }
     }
 
 }

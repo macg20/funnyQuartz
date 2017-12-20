@@ -9,8 +9,8 @@ Technologies:
 
 TODO:
 - Email Service 
+- Report Service (stored id db report, )
 - send reports with exchange rate(every day)
-- send reports with prediction for next week(machine learning)
-
-- Schema version
-Flyway or Liquibase
+- Schema version (Flyway or Liquibase)
+- Spring Security (Oauth2)
+- Angular 2/4 (fronted)

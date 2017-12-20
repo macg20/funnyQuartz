@@ -158,7 +158,6 @@ public class PDFReportRendererImpl extends AbstractService implements PDFReportR
 
     }
 
-
 }
 //http://www.baeldung.com/java-pdf-creation
 //http://www.vogella.com/tutorials/JavaPDF/article.html

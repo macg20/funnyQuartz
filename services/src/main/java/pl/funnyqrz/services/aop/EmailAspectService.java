@@ -6,16 +6,12 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.ExchangeRateEntity;
-import pl.funnyqrz.exceptions.NotFoundDatabaseRecord;
 import pl.funnyqrz.repositories.ExchangeRateRepository;
 import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.email.EmailService;
-import pl.funnyqrz.services.email.MessageService;
 import pl.funnyqrz.services.reports.PDFReportRenderer;
 
 import javax.mail.MessagingException;
@@ -29,15 +25,13 @@ import java.util.Set;
 public class EmailAspectService extends AbstractService {
 
     private EmailService emailService;
-    private MessageService messageService;
     private ExchangeRateRepository exchangeRateRepository;
     private PDFReportRenderer pdfReportRenderer;
 
     @Autowired
-    public EmailAspectService(EmailService emailService, MessageService messageService, ExchangeRateRepository exchangeRateRepository,
+    public EmailAspectService(EmailService emailService, ExchangeRateRepository exchangeRateRepository,
                               PDFReportRenderer pdfReportRenderer) {
         this.emailService = emailService;
-        this.messageService = messageService;
         this.exchangeRateRepository = exchangeRateRepository;
         this.pdfReportRenderer = pdfReportRenderer;
     }
@@ -60,7 +54,6 @@ public class EmailAspectService extends AbstractService {
     }
 
     private ExchangeRateEntity findLastExchangeRateEntity() {
-        Page<ExchangeRateEntity> pList = exchangeRateRepository.findTop1ByIdOrOrderByIdDesc(new PageRequest(1, 1));
-        return pList.getContent().stream().findFirst().orElseThrow(() -> new NotFoundDatabaseRecord("Not found exchange rate in database"));
+        return exchangeRateRepository.findLast();
     }
 }

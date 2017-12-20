@@ -6,8 +6,8 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Service;
 import pl.funnyqrz.entities.ExchangeRateEntity;
+import pl.funnyqrz.exceptions.ApplicationException;
 import pl.funnyqrz.services.AbstractService;
-import pl.funnyqrz.services.pdf.PDFReportRenderer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,21 +26,41 @@ public class PDFReportRendererImpl extends AbstractService implements PDFReportR
             Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
             Font.BOLD);
-        @Override
-        public File renderReport(ExchangeRateEntity exchangeRateEntity){
+
+    @Override
+    public File renderReport(ExchangeRateEntity exchangeRateEntity) {
 
         Document document = new Document();
         File pdfFile = null;
         try {
             pdfFile = File.createTempFile("report" + LocalDate.now().toString(), ".pdf");
         } catch (IOException e) {
-            getLogger().error("Error while create temp file!", e);
+            getLogger().error("Error while creating temporary file!", e);
+            throw new ApplicationException("Error while creating temporary file!", e);
         }
-        PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
 
-        renderReport(exchangeRateEntity, document);
+        createPdfFileInstance(document, pdfFile);
+
+        try {
+            renderReport(exchangeRateEntity, document);
+        } catch (DocumentException e) {
+            getLogger().error("Error while rendering report!", e);
+            throw new ApplicationException("Error while rendering report!", e);
+        }
 
         return pdfFile;
+    }
+
+    private void createPdfFileInstance(Document document, File pdfFile) {
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
+        } catch (DocumentException e) {
+            getLogger().error("Error while creating report instance!", e);
+            throw new ApplicationException("Error while creating report instance!", e);
+        } catch (FileNotFoundException e) {
+            getLogger().error("Error while creating report instance!", e);
+            throw new ApplicationException("Error while creating report instance!", e);
+        }
     }
 
     private void renderReport(ExchangeRateEntity exchangeRateEntity, Document document) throws DocumentException {
@@ -73,7 +93,7 @@ public class PDFReportRendererImpl extends AbstractService implements PDFReportR
         addEmptyLine(preface, 1);
         // TODO data in table
         preface.add(new Paragraph(renderDataString(exchangeRateEntity), catFont));
-        addEmptyLine(preface,2);
+        addEmptyLine(preface, 2);
         document.add(preface);
     }
 

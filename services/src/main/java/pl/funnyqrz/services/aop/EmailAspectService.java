@@ -54,8 +54,8 @@ public class EmailAspectService extends AbstractService {
         File report = pdfReportRenderer.renderReport(findLastExchangeRateEntity());
         Set<File> attachments = Sets.newHashSet(report);
         // TODO read emails from user repository
-        Set<String> emailAddresses = Sets.newHashSet(Arrays.asList("mgieon2629@gmail.com", "maciekzarabianie1991@gmail.com",
-                "macgryczka20@gmail.com"));
+        Set<String> emailAddresses = Sets.newHashSet(Arrays.asList("aaa@gmail.com", "aaabbb@gmail.com",
+                "bbb@gmail.com"));
         emailService.sendMessage("TEST", "TEST", emailAddresses, attachments);
     }
 

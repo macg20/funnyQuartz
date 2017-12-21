@@ -6,5 +6,5 @@ import pl.funnyqrz.entities.account.Privilege;
 
 import java.math.BigInteger;
 
-//public interface PrivilegeRepository extends JpaRepository<Privilege,Long> {
-//}
+public interface PrivilegeRepository extends JpaRepository<Privilege,Integer> {
+}

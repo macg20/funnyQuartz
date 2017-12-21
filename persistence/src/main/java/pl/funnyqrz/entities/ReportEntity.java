@@ -7,13 +7,14 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigInteger;
 import java.sql.Blob;
 import java.time.LocalDate;
 
 @Entity
 @GenericGenerator(
-        name = "report_sequence",
+        name = "report_generator",
         strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
         parameters = {
                 @Parameter(name = "sequence_name", value = "report_sequence"),
@@ -21,10 +22,11 @@ import java.time.LocalDate;
                 @Parameter(name = "increment_value", value = "1")
         }
 )
+@Table(name = "reports")
 public class ReportEntity {
 
     @Id
-    @GeneratedValue(generator = "report_sequence")
+    @GeneratedValue(generator = "report_generator")
     private BigInteger id;
     private String fileName;
     private Blob fileContent;

@@ -1,6 +1,5 @@
 package pl.funnyqrz.services.reports;
 
-import com.itextpdf.text.DocumentException;
 import org.springframework.stereotype.Service;
 import pl.funnyqrz.entities.ExchangeRateEntity;
 

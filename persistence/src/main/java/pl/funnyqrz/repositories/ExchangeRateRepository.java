@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import pl.funnyqrz.entities.ExchangeRateEntity;
 
 import java.math.BigInteger;
+import java.util.List;
 
 public interface ExchangeRateRepository extends JpaRepository<ExchangeRateEntity, BigInteger> {
 

@@ -11,16 +11,17 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@GenericGenerator(name = "echangeRateSequence",
+@GenericGenerator(name = "exchange_rate_generator",
         strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
         parameters = {
                 @Parameter(name = "sequence_name", value = "echange_rate_sequence"),
                 @Parameter(name = "initial_value", value = "1"),
                 @Parameter(name = "increment_value", value = "1")})
+@Table(name = "exchange_rates")
 public class ExchangeRateEntity {
 
     @Id
-    @GeneratedValue(generator = "echangeRateSequence")
+    @GeneratedValue(generator = "exchange_rate_generator")
     private BigInteger id;
     private BigDecimal usdExchangeRate; //dolar amerykanski
     private BigDecimal eurExchangeRate; //euro

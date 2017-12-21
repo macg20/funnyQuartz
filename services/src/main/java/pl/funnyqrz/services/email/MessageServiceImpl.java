@@ -6,10 +6,14 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import pl.funnyqrz.services.AbstractService;
+import pl.funnyqrz.entities.ExchangeRateEntity;
+import pl.funnyqrz.services.AbstractService;
+import pl.funnyqrz.wrappers.EmailAddress;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+
 import java.util.Collection;
 
 @Service
@@ -58,5 +62,4 @@ public class MessageServiceImpl extends AbstractService implements MessageServic
 
         return message;
     }
-
 }

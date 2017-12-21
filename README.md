@@ -1,6 +1,6 @@
 Exchange Rate downloader from NBP API.
 
-Technologies:
+Current Technologies:
 - Quartz
 - Spring Boot
 - Spring Data JPA

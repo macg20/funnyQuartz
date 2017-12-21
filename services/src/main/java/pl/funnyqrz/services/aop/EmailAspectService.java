@@ -2,7 +2,6 @@ package pl.funnyqrz.services.aop;
 
 
 import com.google.common.collect.Sets;
-import com.itextpdf.text.DocumentException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,21 +19,6 @@ import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-
-import pl.funnyqrz.exceptions.NotFoundDatabaseRecord;
-import pl.funnyqrz.repositories.ExchangeRateRepository;
-import pl.funnyqrz.services.AbstractService;
-import pl.funnyqrz.services.email.EmailService;
-import pl.funnyqrz.services.email.MessageService;
-import pl.funnyqrz.services.pdf.PDFReportRenderer;
-import pl.funnyqrz.utils.NameUtils;
-import pl.funnyqrz.wrappers.EmailAddress;
-
-import javax.mail.internet.MimeMessage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Aspect
@@ -73,5 +57,5 @@ public class EmailAspectService extends AbstractService {
 
     private ExchangeRateEntity findLastExchangeRateEntity() {
         return exchangeRateRepository.findLast();
- 
+    }
 }

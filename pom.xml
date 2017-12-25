@@ -61,6 +61,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring.boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -114,6 +120,26 @@
                 <version>20160810</version>
             </dependency>
 
+            <!--MariaDB-->
+
+            <dependency>
+                <groupId>ch.vorburger.mariaDB4j</groupId>
+                <artifactId>mariaDB4j</artifactId>
+                <version>2.2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mariadb.jdbc</groupId>
+                <artifactId>mariadb-java-client</artifactId>
+                <version>1.1.7</version>
+            </dependency>
+
+            <!--Postgres-->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>9.4-1200-jdbc41</version>
+            </dependency>
+
             <!--Quartz-->
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
@@ -151,31 +177,12 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>ch.vorburger.mariaDB4j</groupId>
-                    <artifactId>mariaDB4j</artifactId>
-                    <version>2.2.3</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.mariadb.jdbc</groupId>
-                    <artifactId>mariadb-java-client</artifactId>
-                    <version>1.1.7</version>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>release</id>
             <properties>
                 <activatedProperties>release</activatedProperties>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>9.4-1200-jdbc41</version>
-                </dependency>
-            </dependencies>
         </profile>
     </profiles>
     <build>

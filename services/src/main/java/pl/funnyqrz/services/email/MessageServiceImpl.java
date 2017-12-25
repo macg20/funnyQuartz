@@ -5,15 +5,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import pl.funnyqrz.exceptions.ApplicationException;
 import pl.funnyqrz.services.AbstractService;
-import pl.funnyqrz.entities.ExchangeRateEntity;
-import pl.funnyqrz.services.AbstractService;
-import pl.funnyqrz.wrappers.EmailAddress;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
-
 import java.util.Collection;
 
 @Service
@@ -31,7 +28,7 @@ public class MessageServiceImpl extends AbstractService implements MessageServic
     }
 
     @Override
-    public MimeMessage createMessage(String subject, String content, String footer, Collection<File> attachments) throws MessagingException {
+    public MimeMessage createMessage(String subject, String content, Collection<File> attachments) throws MessagingException {
 
         MimeMessage message = javaMailSender.createMimeMessage();
 //        Multipart multiPart = new MimeMultipart("alternative");
@@ -57,9 +54,16 @@ public class MessageServiceImpl extends AbstractService implements MessageServic
 //        multiPart.addBodyPart(footerPart);
 //        multiPart.addBodyPart(attachmentPart);
 //        message.setContent(multiPart);
+        message.setSubject(subject);
         message.setText(content);
-//        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message);
-
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true);
+        attachments.forEach(file ->{
+            try {
+                mimeMessageHelper.addAttachment(file.getName(),file);
+            } catch (MessagingException e) {
+                throw new ApplicationException("Cannot add attachment");
+            }
+        });
         return message;
     }
 }

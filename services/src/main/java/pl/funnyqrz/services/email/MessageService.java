@@ -17,6 +17,6 @@ import java.util.Set;
 @Service
 public interface MessageService {
 
-    MimeMessage createMessage(String subject, String content, String footer, Collection<File> attachments) throws MessagingException, IOException;
+    MimeMessage createMessage(String subject, String content, Collection<File> attachments) throws MessagingException, IOException;
 
 }

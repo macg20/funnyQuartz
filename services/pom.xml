@@ -61,6 +61,7 @@
             <groupId>pl.funnyqrz</groupId>
             <artifactId>commons</artifactId>
         </dependency>
+
         <!--Test-->
         <dependency>
             <groupId>junit</groupId>
@@ -72,6 +73,7 @@
             <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>

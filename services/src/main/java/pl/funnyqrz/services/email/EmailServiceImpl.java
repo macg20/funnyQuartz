@@ -44,7 +44,7 @@ public class EmailServiceImpl extends AbstractService implements EmailService {
     @Override
     public void sendMessage(String subject, String content, Collection<String> receivers, Collection<File> attachments) throws IOException, MessagingException {
 
-        MimeMessage message = messageService.createMessage(subject, content, "", attachments);
+        MimeMessage message = messageService.createMessage(subject, content, attachments);
         receivers.stream()
                 .map(this::convertStringToInternetAddress)
                 .collect(Collectors.toList())

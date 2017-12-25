@@ -18,7 +18,7 @@ import java.util.Collection;
 public class User {
 
     @Id
-    @GeneratedValue(generator ="users_sequence")
+    @GeneratedValue(generator ="users_generator")
     private BigInteger id;
 
     private String firstName;

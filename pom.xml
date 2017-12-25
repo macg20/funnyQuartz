@@ -23,6 +23,13 @@
         <relativePath/> <!-- lookup parent from repositories -->
     </parent>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -96,9 +103,6 @@
                 <version>${spring.boot.version}</version>
             </dependency>
 
-            <!--Postgres-->
-
-
             <!--Guava-->
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -163,6 +167,18 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring.boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.sbrannen</groupId>
+                <artifactId>spring-test-junit5</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.0.2</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

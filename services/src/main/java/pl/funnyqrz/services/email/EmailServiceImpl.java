@@ -42,25 +42,25 @@ public class EmailServiceImpl extends AbstractService implements EmailService {
 
 
     @Override
-    public void sendMessage(String subject, String content, Collection<String> receivers, Collection<File> attachments) throws IOException, MessagingException {
+    public void sendMessage(String subject, String content, Collection<String> receivers, Collection<File> attachments) throws IOException {
 
         MimeMessage message = messageService.createMessage(subject, content, attachments);
         receivers.stream()
                 .map(this::convertStringToInternetAddress)
                 .collect(Collectors.toList())
                 .forEach(internetAddress -> {
-                    setMessageReciver(message, internetAddress);
+                    setMessageReceiver(message, internetAddress);
                     sendMessage(message);
 
                 });
 
     }
 
-    private void setMessageReciver(MimeMessage message, InternetAddress receiver) {
+    private void setMessageReceiver(MimeMessage message, InternetAddress receiver) {
         try {
             message.setRecipient(Message.RecipientType.TO, receiver);
         } catch (MessagingException ex) {
-            getLogger().error("Occurred error in method [setMessageReciver]", ex);
+            getLogger().error("Occurred error in method [setMessageReceiver]", ex);
             throw new ApplicationException(ex);
         }
     }

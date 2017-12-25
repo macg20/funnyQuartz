@@ -28,42 +28,27 @@ public class MessageServiceImpl extends AbstractService implements MessageServic
     }
 
     @Override
-    public MimeMessage createMessage(String subject, String content, Collection<File> attachments) throws MessagingException {
+    public MimeMessage createMessage(String subject, String content, Collection<File> attachments) {
 
         MimeMessage message = javaMailSender.createMimeMessage();
-//        Multipart multiPart = new MimeMultipart("alternative");
-//
-//        MimeBodyPart textPart = new MimeBodyPart();
-//        textPart.setText(content, "utf-8");
-//
-//        MimeBodyPart footerPart = new MimeBodyPart();
-//        textPart.setText(footer, "utf-8");
-//
-//        MimeBodyPart attachmentPart = new MimeBodyPart();
-//        attachments.forEach(file -> {
-//            try {
-//                attachmentPart.attachFile(file);
-//            } catch (IOException e) {
-//                getLogger().error("Cannot add attachment");
-//            } catch (MessagingException e) {
-//                getLogger().error("Cannot add attachment");
-//            }
-//        });
+        try {
+            message.setFrom(from);
+            message.setSubject(subject);
+            message.setText(content);
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true);
+            attachments.forEach(file ->{
+                try {
+                    mimeMessageHelper.addAttachment(file.getName(),file);
+                } catch (MessagingException e) {
+                    throw new ApplicationException("Cannot add attachment");
+                }
+            });
+        } catch (MessagingException e) {
+            throw new ApplicationException("Cannot create message");
+        }
 
-//        multiPart.addBodyPart(textPart);
-//        multiPart.addBodyPart(footerPart);
-//        multiPart.addBodyPart(attachmentPart);
-//        message.setContent(multiPart);
-        message.setSubject(subject);
-        message.setText(content);
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true);
-        attachments.forEach(file ->{
-            try {
-                mimeMessageHelper.addAttachment(file.getName(),file);
-            } catch (MessagingException e) {
-                throw new ApplicationException("Cannot add attachment");
-            }
-        });
         return message;
     }
+
+
 }

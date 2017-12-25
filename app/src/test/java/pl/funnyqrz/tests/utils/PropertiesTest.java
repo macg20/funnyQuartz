@@ -1,4 +1,4 @@
-package pl.funnyqrz.test;
+package pl.funnyqrz.tests.utils;
 
 import org.junit.Test;
 import pl.funnyqrz.utils.resource.PropertiesValidator;

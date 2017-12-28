@@ -16,7 +16,6 @@ import java.util.Collection;
 @Service
 public class MessageServiceImpl extends AbstractService implements MessageService {
 
-    @Autowired
     private JavaMailSender javaMailSender;
 
     @Value("${email.from}")

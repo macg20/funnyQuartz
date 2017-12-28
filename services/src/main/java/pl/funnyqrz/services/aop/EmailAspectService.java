@@ -30,7 +30,6 @@ public class EmailAspectService extends AbstractService {
     private PDFReportRenderer pdfReportRenderer;
 
     @Autowired
-
     public EmailAspectService(EmailService emailService, ExchangeRateRepository exchangeRateRepository,
                               PDFReportRenderer pdfReportRenderer) {
         this.emailService = emailService;

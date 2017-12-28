@@ -13,6 +13,7 @@
         <module>commons</module>
         <module>app</module>
         <module>utils</module>
+        <module>web</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -62,6 +63,11 @@
                 <artifactId>persistence</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>pl.funnyqrz</groupId>
+                <artifactId>web</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
 
             <!--Spring-->
             <dependency>
@@ -100,6 +106,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
 
@@ -184,23 +195,7 @@
         </dependencies>
     </dependencyManagement>
 
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <activatedProperties>dev</activatedProperties>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>release</id>
-            <properties>
-                <activatedProperties>release</activatedProperties>
-            </properties>
-        </profile>
-    </profiles>
+
     <build>
         <resources>
             <resource>

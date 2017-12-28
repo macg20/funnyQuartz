@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigInteger;
 import java.sql.Blob;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @GenericGenerator(
@@ -30,7 +30,7 @@ public class ReportEntity {
     private BigInteger id;
     private String fileName;
     private Blob fileContent;
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
     public BigInteger getId() {
         return id;
@@ -56,11 +56,11 @@ public class ReportEntity {
         this.fileContent = fileContent;
     }
 
-    public LocalDate getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDate createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 }

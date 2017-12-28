@@ -28,11 +28,8 @@ public class EmailServiceImpl extends AbstractService implements EmailService {
     private String from;
 
     @Autowired
-    public EmailServiceImpl(JavaMailSender javaMailSender,
-//                            PDFReportRenderer pdfReportRenderer,
-                            MessageService messageService) {
+    public EmailServiceImpl(JavaMailSender javaMailSender, MessageService messageService) {
         this.javaMailSender = javaMailSender;
-//        this.pdfReportRenderer = pdfReportRenderer;
         this.messageService = messageService;
     }
 

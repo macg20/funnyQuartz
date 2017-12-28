@@ -1,6 +1,8 @@
 package pl.funnyqrz.exceptions;
 
-public class ApplicationException extends RuntimeException {
+import java.util.function.Supplier;
+
+public class ApplicationException extends RuntimeException{
 
     public ApplicationException(String message) {
         super(message);

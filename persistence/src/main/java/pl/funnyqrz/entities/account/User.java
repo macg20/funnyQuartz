@@ -4,6 +4,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Collection;
 
@@ -20,7 +23,6 @@ public class User {
     @Id
     @GeneratedValue(generator ="users_generator")
     private BigInteger id;
-
     private String firstName;
     private String lastName;
     private String email;

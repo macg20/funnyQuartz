@@ -1,18 +1,28 @@
 package pl.funnyqrz.messages;
 
-public class GenericMessage {
+import java.util.HashSet;
+import java.util.Set;
 
-    private String message;
+public class GenericMessage<T> {
 
-    public GenericMessage(String message) {
-        this.message = message;
+    private Set<T> messages;
+
+
+
+    public GenericMessage() {
+        if(messages == null)
+            messages = new HashSet<>();
     }
 
-    public String getMessage() {
-        return message;
+    public GenericMessage(Set<T> messages) {
+        this.messages = messages;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public Set<T> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<T> messages) {
+        this.messages = messages;
     }
 }

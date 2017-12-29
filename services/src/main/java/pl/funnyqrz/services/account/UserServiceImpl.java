@@ -29,16 +29,21 @@ public class UserServiceImpl extends AbstractService implements UserService {
     @Transactional
     public User createNewAccount(UserDto userDto) {
         isExsist(userDto.getEmail());
-      return userRepository.save(mapToUser(userDto));
+        return userRepository.save(mapDtoToUser(userDto));
     }
 
     private void isExsist(String email) {
-        userRepository.findByEmail(email).orElseThrow(() -> new UserAlreadyRegisterException(USER_ALREADY_EXISTS));
-
+//        userRepository.findByEmail(email).orElseThrow(() -> new UserAlreadyRegisterException(USER_ALREADY_EXISTS));
+//        userRepository.findByEmail(email).ifPresent(user -> {
+//                throw new UserAlreadyRegisterException(USER_ALREADY_EXISTS);
+//        });
+        userRepository.ifExistsUserEmail(email).stream().findFirst().ifPresent(user -> {
+            throw new UserAlreadyRegisterException(USER_ALREADY_EXISTS);});
     }
 
-    private User mapToUser(UserDto userDto){
+    private User mapDtoToUser(UserDto userDto) {
         User user = new User();
+        user.setId(userDto.getId());
         user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -47,7 +52,17 @@ public class UserServiceImpl extends AbstractService implements UserService {
         return user;
     }
 
+    private UserDto mapUserToDto(User user) {
+        UserDto dto = new UserDto();
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setEnabled(user.isEnabled());
+        return dto;
+    }
+
     private String encryptPassword(String password) {
-       return passwordEncoder.encode(password);
+        return passwordEncoder.encode(password);
     }
 }

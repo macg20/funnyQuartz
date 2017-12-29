@@ -10,6 +10,8 @@ import pl.funnyqrz.exceptions.UserAlreadyRegisterException;
 import pl.funnyqrz.repositories.UserRepository;
 import pl.funnyqrz.services.AbstractService;
 
+import java.util.Set;
+
 import static pl.funnyqrz.messages.SystemMessage.USER_ALREADY_EXISTS;
 
 @Service
@@ -32,11 +34,12 @@ public class UserServiceImpl extends AbstractService implements UserService {
         return userRepository.save(mapDtoToUser(userDto));
     }
 
+    @Override
+    public Set<String> findAllUserEmail() {
+        return userRepository.findAllEmails();
+    }
+
     private void isExsist(String email) {
-//        userRepository.findByEmail(email).orElseThrow(() -> new UserAlreadyRegisterException(USER_ALREADY_EXISTS));
-//        userRepository.findByEmail(email).ifPresent(user -> {
-//                throw new UserAlreadyRegisterException(USER_ALREADY_EXISTS);
-//        });
         userRepository.ifExistsUserEmail(email).stream().findFirst().ifPresent(user -> {
             throw new UserAlreadyRegisterException(USER_ALREADY_EXISTS);});
     }

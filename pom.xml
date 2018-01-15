@@ -43,7 +43,7 @@
         <hibernate.version>5.2.10.Final</hibernate.version>
         <spring.security.version>4.2.3.RELEASE</spring.security.version>
         <jjwt.version>0.9.0</jjwt.version>
-        <java.validation.version>2.0.1.Final</java.validation.version>
+        <javax.validation.version>2.0.1.Final</javax.validation.version>
         <google.guava.version>20.0</google.guava.version>
         <apache.httpclient.version>4.5.3</apache.httpclient.version>
         <lombok.version>1.16.20</lombok.version>
@@ -133,7 +133,7 @@
             <dependency>
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
-                <version>${javax.validation}</version>
+                <version>${javax.validation.version}</version>
             </dependency>
 
 

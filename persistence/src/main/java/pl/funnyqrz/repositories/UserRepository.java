@@ -17,6 +17,6 @@ public interface UserRepository extends JpaRepository<User, BigInteger> {
     @Query("SELECT 1 FROM User u WHERE u.email = :email")
     Collection<Integer> ifExistsUserEmail(@Param("email") String email);
 
-    @Query("SELECT u.email FROM User u")
+    @Query("SELECT u.email FROM User u where u.enabled = true")
     Set<String> findAllEmails();
 }

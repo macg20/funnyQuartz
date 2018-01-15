@@ -9,6 +9,6 @@ public interface UserService {
 
     User createNewAccount(UserDto userDto);
 
-    Set<String> findAllUserEmail();
+    Set<String> findAllEmails();
 
 }

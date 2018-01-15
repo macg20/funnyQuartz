@@ -30,16 +30,16 @@ public class UserServiceImpl extends AbstractService implements UserService {
     @Override
     @Transactional
     public User createNewAccount(UserDto userDto) {
-        isExsist(userDto.getEmail());
+        isExists(userDto.getEmail());
         return userRepository.save(mapDtoToUser(userDto));
     }
 
     @Override
-    public Set<String> findAllUserEmail() {
+    public Set<String> findAllEmails() {
         return userRepository.findAllEmails();
     }
 
-    private void isExsist(String email) {
+    private void isExists(String email) {
         userRepository.ifExistsUserEmail(email).stream().findFirst().ifPresent(user -> {
             throw new UserAlreadyRegisterException(USER_ALREADY_EXISTS);});
     }

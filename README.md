@@ -8,9 +8,8 @@ Current Technologies:
 - Postgres
 
 TODO:
-- Email Service 
-- Report Service (stored id db report, )
-- send reports with exchange rate(every day)
-- Schema version (Flyway or Liquibase)
-- Spring Security (Oauth2)
-- Angular 2/4 (fronted)
+- Report Services
+- Schema version (Flyway 5 or Liquibase)
+- Spring Security + JWT
+- TypeScript/Angular 4/5 (fronted)
+- REST services

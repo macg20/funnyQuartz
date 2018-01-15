@@ -17,11 +17,21 @@
     <dependencies>
         <dependency>
             <groupId>pl.funnyqrz</groupId>
-            <artifactId>services</artifactId>
+            <artifactId>web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>1.1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.vorburger.mariaDB4j</groupId>
+            <artifactId>mariaDB4j</artifactId>
+            <version>2.2.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -31,8 +41,48 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.sbrannen</groupId>
+            <artifactId>spring-test-junit5</artifactId>
+            <version>1.0.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.0.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.8.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>release</id>
+            <properties>
+                <activatedProperties>release</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>
@@ -45,6 +95,12 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>

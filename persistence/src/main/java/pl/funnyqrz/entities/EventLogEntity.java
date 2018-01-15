@@ -1,5 +1,6 @@
 package pl.funnyqrz.entities;
 
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -8,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigInteger;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,10 +19,11 @@ import java.time.LocalDateTime;
                 @Parameter(name = "initial_value", value = "1"),
                 @Parameter(name = "increment_value", value = "1")})
 @Table(name = "event_logs")
+@Data
 public class EventLogEntity {
 
     @Id
-    @GeneratedValue(generator ="event_log_generator" )
+    @GeneratedValue(generator = "event_log_generator")
     private BigInteger id;
     private String description;
     private LocalDateTime date;
@@ -39,30 +40,6 @@ public class EventLogEntity {
     public EventLogEntity(BigInteger id, String description, LocalDateTime date) {
         this.id = id;
         this.description = description;
-        this.date = date;
-    }
-
-    public BigInteger getId() {
-        return id;
-    }
-
-    public void setId(BigInteger id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

@@ -13,22 +13,46 @@
         <module>commons</module>
         <module>app</module>
         <module>utils</module>
+        <module>web</module>
     </modules>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.2.RELEASE</version>
+        <version>1.5.9.RELEASE</version>
         <relativePath/> <!-- lookup parent from repositories -->
     </parent>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+    </repositories>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring.boot.version>1.5.2.RELEASE</spring.boot.version>
+        <spring.boot.version>1.5.9.RELEASE</spring.boot.version>
         <hibernate.version>5.2.10.Final</hibernate.version>
+        <spring.security.version>4.2.3.RELEASE</spring.security.version>
+        <jjwt.version>0.9.0</jjwt.version>
+        <javax.validation.version>2.0.1.Final</javax.validation.version>
+        <google.guava.version>20.0</google.guava.version>
+        <apache.httpclient.version>4.5.3</apache.httpclient.version>
+        <lombok.version>1.16.20</lombok.version>
+        <org.json.version>20160810</org.json.version>
+        <postgres.driver.version>9.4-1200-jdbc41</postgres.driver.version>
+        <itextpdf.version>5.5.10</itextpdf.version>
+        <pdfbox.version>2.0.4</pdfbox.version>
+        <junit-jupiter-engine.version>>5.0.2</junit-jupiter-engine.version>
+        <quartz.version>2.3.0</quartz.version>
     </properties>
 
     <dependencyManagement>
@@ -55,12 +79,23 @@
                 <artifactId>persistence</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>pl.funnyqrz</groupId>
+                <artifactId>web</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
 
             <!--Spring-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring.boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -83,53 +118,83 @@
                 <artifactId>spring-boot-starter-aop</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-mail</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-crypto</artifactId>
+                <version>${spring.security.version}</version>
+            </dependency>
 
-            <!--Postgres-->
+            <!--Validation-->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${javax.validation.version}</version>
+            </dependency>
 
 
             <!--Guava-->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>20.0</version>
+                <version>${google.guava.version}</version>
             </dependency>
 
             <!--Apache Commons-->
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.5.3</version>
+                <version>${apache.httpclient.version}</version>
             </dependency>
 
             <!--JSON-->
             <dependency>
                 <groupId>org.json</groupId>
                 <artifactId>json</artifactId>
-                <version>20160810</version>
+                <version>${org.json.version}</version>
+            </dependency>
+
+            <!--MariaDB-->
+            <dependency>
+                <groupId>ch.vorburger.mariaDB4j</groupId>
+                <artifactId>mariaDB4j</artifactId>
+                <version>2.2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mariadb.jdbc</groupId>
+                <artifactId>mariadb-java-client</artifactId>
+                <version>1.1.7</version>
+            </dependency>
+
+            <!--Postgres-->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgres.driver.version}</version>
             </dependency>
 
             <!--Quartz-->
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz</artifactId>
-                <version>2.3.0</version>
+                <version>${quartz.version}</version>
             </dependency>
+
+            <!--PDF libraries-->
 
             <dependency>
                 <groupId>com.itextpdf</groupId>
                 <artifactId>itextpdf</artifactId>
-                <version>5.5.10</version>
+                <version>${itextpdf.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.pdfbox</groupId>
                 <artifactId>pdfbox</artifactId>
-                <version>2.0.4</version>
+                <version>${pdfbox.version}</version>
             </dependency>
 
             <!--Test-->
@@ -139,45 +204,40 @@
                 <version>${spring.boot.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!--Support library for Junit5 in Spring 4.x.x-->
+            <dependency>
+                <groupId>com.github.sbrannen</groupId>
+                <artifactId>spring-test-junit5</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+
+            <!--Junit 5-->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit-jupiter-engine.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--JWT-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <!--Lombok-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <activatedProperties>dev</activatedProperties>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>ch.vorburger.mariaDB4j</groupId>
-                    <artifactId>mariaDB4j</artifactId>
-                    <version>2.2.3</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.mariadb.jdbc</groupId>
-                    <artifactId>mariadb-java-client</artifactId>
-                    <version>1.1.7</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>release</id>
-            <properties>
-                <activatedProperties>release</activatedProperties>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>9.4-1200-jdbc41</version>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
+
     <build>
         <resources>
             <resource>

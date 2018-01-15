@@ -3,22 +3,22 @@ package pl.funnyqrz.services.aop;
 
 import com.google.common.collect.Sets;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import pl.funnyqrz.entities.ExchangeRateEntity;
-import pl.funnyqrz.repositories.ExchangeRateRepository;
+import pl.funnyqrz.exceptions.NotFoundDatabaseRecord;
 import pl.funnyqrz.services.AbstractService;
+import pl.funnyqrz.services.account.UserService;
 import pl.funnyqrz.services.email.EmailService;
 import pl.funnyqrz.services.reports.PDFReportRenderer;
 
 import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Set;
 
 @Aspect
@@ -26,36 +26,39 @@ import java.util.Set;
 public class EmailAspectService extends AbstractService {
 
     private EmailService emailService;
-    private ExchangeRateRepository exchangeRateRepository;
     private PDFReportRenderer pdfReportRenderer;
+    private UserService userService;
 
     @Autowired
-
-    public EmailAspectService(EmailService emailService, ExchangeRateRepository exchangeRateRepository,
-                              PDFReportRenderer pdfReportRenderer) {
+    public EmailAspectService(EmailService emailService, PDFReportRenderer pdfReportRenderer, UserService userService) {
         this.emailService = emailService;
-        this.exchangeRateRepository = exchangeRateRepository;
         this.pdfReportRenderer = pdfReportRenderer;
+        this.userService = userService;
     }
 
+
     @Before("execution(* pl.funnyqrz.services.nbp.NbpServiceImpl.downloadAndSaveExchangeRate(..))")
-    public void logBeforeAllMethodsJobExecute1(JoinPoint joinPoint) {
+    public void logBeforeDownloadAndSaveExchangeRate(JoinPoint joinPoint) {
         getLogger().info("Executing method:" + joinPoint.getSignature().getName());
     }
 
-    @Transactional
-    @After("execution(* pl.funnyqrz.services.nbp.NbpServiceImpl.downloadAndSaveExchangeRate(..))")
-    public void sendEmailWithReportAfterDownloadAndSaveExchangeRate(JoinPoint joinPoint) throws IOException, MessagingException {
 
-        File report = pdfReportRenderer.renderReport(findLastExchangeRateEntity());
+    @AfterReturning(value = "execution(* pl.funnyqrz.services.nbp.NbpServiceImpl.downloadAndSaveExchangeRate(..))", returning = "result")
+    public void generateReportAfterDownloadedExchangeRateAndSendEmialForUsers(JoinPoint joinPoint, Object result) throws IOException, MessagingException {
+        getLogger().error("Start aspect..");
+        File report = pdfReportRenderer.renderReport((ExchangeRateEntity) result);
         Set<File> attachments = Sets.newHashSet(report);
-        // TODO read emails from user repository
-        Set<String> emailAddresses = Sets.newHashSet(Arrays.asList("aaa@gmail.com", "aaabbb@gmail.com",
-                "bbb@gmail.com"));
+        Set<String> emailAddresses = findAllEmails();
+        //TODO save reports in db
+        //TODO render content
         emailService.sendMessage("TEST", "TEST", emailAddresses, attachments);
     }
 
-    private ExchangeRateEntity findLastExchangeRateEntity() {
-        return exchangeRateRepository.findLast();
+    private Set<String> findAllEmails() {
+        Set<String> emails = userService.findAllEmails();
+        if (!CollectionUtils.isEmpty(emails))
+            return emails;
+        else
+            throw new NotFoundDatabaseRecord("Set of emails is empty!");
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.EventLogEntity;
 import pl.funnyqrz.entities.ExchangeRateEntity;
+import pl.funnyqrz.exceptions.ApplicationException;
 import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.eventlog.EventLogService;
 import pl.funnyqrz.services.exchangerate.ExchangeRateService;
@@ -74,12 +75,14 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
 
     @Override
     @Transactional
-    public void downloadAndSaveExchangeRate() {
+    public ExchangeRateEntity downloadAndSaveExchangeRate() {
         ExchangeRateEntity exchangeRateEntity = getExchangeRate();
         if (!ExchangeRateValidator.validate(exchangeRateEntity)) {
             getLogger().info("Saving exchange rate");
-            exchangeRateService.save(exchangeRateEntity);
+         return  exchangeRateService.save(exchangeRateEntity);
         }
+        else
+            throw new ApplicationException("Not valid exchange rate");
     }
 
     private BufferedReader getBufferedReader() throws InvalidHostException, IOException {

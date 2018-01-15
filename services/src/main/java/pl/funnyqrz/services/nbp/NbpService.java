@@ -7,6 +7,6 @@ public interface NbpService {
 
     boolean echo();
 
-    void downloadAndSaveExchangeRate();
+    ExchangeRateEntity downloadAndSaveExchangeRate();
 
 }

@@ -3,6 +3,7 @@ package pl.funnyqrz.services.exchangerate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.EventLogEntity;
 import pl.funnyqrz.entities.ExchangeRateEntity;
 import pl.funnyqrz.repositories.ExchangeRateRepository;
@@ -25,9 +26,11 @@ public class ExchangeRateServiceImpl extends AbstractService implements Exchange
     }
 
     @Override
-    public void save(ExchangeRateEntity exchangeRateEntity) {
+    @Transactional
+    public ExchangeRateEntity save(ExchangeRateEntity exchangeRateEntity) {
+       exchangeRateEntity = exchangeRateRepository.saveAndFlush(exchangeRateEntity);
         EventLogEntity eventLogEntity = new EventLogEntity("Save exchange rate", LocalDateTime.now());
         eventLogService.save(eventLogEntity);
-        exchangeRateRepository.save(exchangeRateEntity);
+        return exchangeRateEntity;
     }
 }

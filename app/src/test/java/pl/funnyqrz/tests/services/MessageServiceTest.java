@@ -1,20 +1,8 @@
 package pl.funnyqrz.tests.services;
 
-import ch.vorburger.mariadb4j.springframework.MariaDB4jSpringService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mariadb.jdbc.Driver;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.funnyqrz.configuration.DevelopmentDatabaseConfiguration;
 import pl.funnyqrz.exceptions.ApplicationException;
 import pl.funnyqrz.services.email.MessageService;
 import pl.funnyqrz.tests.AbstractTest;
@@ -22,7 +10,6 @@ import pl.funnyqrz.tests.AbstractTest;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Collections;
 
@@ -62,7 +49,7 @@ public class MessageServiceTest extends AbstractTest {
     }
 
     @Test
-    public void createMessageWithException() throws IOException, MessagingException {
+    public void createMessageWithException() {
 
         when(messageService.createMessage(null, null, null)).thenThrow(ApplicationException.class);
 

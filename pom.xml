@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.2.RELEASE</version>
+        <version>1.5.9.RELEASE</version>
         <relativePath/> <!-- lookup parent from repositories -->
     </parent>
 
@@ -29,15 +29,20 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
     </repositories>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring.boot.version>1.5.2.RELEASE</spring.boot.version>
+        <spring.boot.version>1.5.9.RELEASE</spring.boot.version>
         <hibernate.version>5.2.10.Final</hibernate.version>
         <spring.security.version>4.2.3.RELEASE</spring.security.version>
+        <jjwt.version>0.9.0</jjwt.version>
     </properties>
 
     <dependencyManagement>
@@ -189,6 +194,7 @@
                 <scope>test</scope>
             </dependency>
 
+            <!--Support library for Junit5 in Spring 4.x.x-->
             <dependency>
                 <groupId>com.github.sbrannen</groupId>
                 <artifactId>spring-test-junit5</artifactId>
@@ -200,6 +206,21 @@
                 <version>5.0.2</version>
                 <scope>test</scope>
             </dependency>
+
+            <!--JWT-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <!--Lombok-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.20</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

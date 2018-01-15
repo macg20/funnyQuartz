@@ -1,5 +1,6 @@
 package pl.funnyqrz.entities.account;
 
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.Collection;
                 @org.hibernate.annotations.Parameter(name = "sequence_name", value = "roles_sequence"),
                 @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
                 @org.hibernate.annotations.Parameter(name = "increment_value", value = "1")})
+@Data
 public class Role {
 
     @Id
@@ -32,35 +34,5 @@ public class Role {
                     name = "privilege_id", referencedColumnName = "id"))
     private Collection<Privilege> privileges;
 
-    public BigInteger getId() {
-        return id;
-    }
 
-    public void setId(BigInteger id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Collection<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Collection<User> users) {
-        this.users = users;
-    }
-
-    public Collection<Privilege> getPrivileges() {
-        return privileges;
-    }
-
-    public void setPrivileges(Collection<Privilege> privileges) {
-        this.privileges = privileges;
-    }
 }

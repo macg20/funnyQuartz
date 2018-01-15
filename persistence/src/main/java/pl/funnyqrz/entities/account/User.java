@@ -1,12 +1,10 @@
 package pl.funnyqrz.entities.account;
 
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Collection;
 
@@ -18,10 +16,11 @@ import java.util.Collection;
                 @Parameter(name = "sequence_name", value = "users_sequence"),
                 @Parameter(name = "initial_value", value = "1"),
                 @Parameter(name = "increment_value", value = "1")})
+@Data
 public class User {
 
     @Id
-    @GeneratedValue(generator ="users_generator")
+    @GeneratedValue(generator = "users_generator")
     private BigInteger id;
     private String firstName;
     private String lastName;
@@ -39,67 +38,5 @@ public class User {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
-    public BigInteger getId() {
-        return id;
-    }
 
-    public void setId(BigInteger id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isTokenExpired() {
-        return tokenExpired;
-    }
-
-    public void setTokenExpired(boolean tokenExpired) {
-        this.tokenExpired = tokenExpired;
-    }
-
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
 }

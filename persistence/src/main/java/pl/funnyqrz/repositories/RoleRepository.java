@@ -7,4 +7,6 @@ import pl.funnyqrz.entities.account.Role;
 import java.math.BigInteger;
 
 public interface RoleRepository extends JpaRepository<Role,BigInteger> {
+
+    Role findByName(String name);
 }

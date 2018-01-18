@@ -2,6 +2,7 @@ package pl.funnyqrz.entities.account;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -21,6 +22,9 @@ public class Role {
     @Id
     @GeneratedValue(generator = "roles_generator")
     private BigInteger id;
+
+    @NotBlank
+    @Column(unique = true)
     private String name;
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;

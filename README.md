@@ -1,4 +1,4 @@
-Exchange Rate downloader from NBP API.
+Funnyqrz is a application which download exchange rate currency value(once per day from NBP API) and send email message to all registered users with pdf attachment(downloaded exchange rate).  
 
 Current Technologies:
 - Quartz
@@ -7,10 +7,11 @@ Current Technologies:
 - Spring AOP
 - Postgres
 
+
 TODO:
-- Email Service 
-- Report Service (stored id db report, )
-- send reports with exchange rate(every day)
-- Schema version (Flyway or Liquibase)
-- Spring Security (Oauth2)
-- Angular 2/4 (fronted)
+- Report Services
+- Schema version (Flyway 5 or Liquibase)
+- Spring Security + JWT
+- TypeScript/Angular 4/5 (fronted)
+- REST services
+- Swagger

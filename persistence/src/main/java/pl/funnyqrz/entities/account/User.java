@@ -7,6 +7,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "USERS")
@@ -24,10 +25,10 @@ public class User {
     private BigInteger id;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String password;
     private boolean enabled;
-    private boolean tokenExpired;
 
     @ManyToMany
     @JoinTable(
@@ -36,7 +37,7 @@ public class User {
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+    private Collection<Role> roles = new HashSet<>();
 
 
 }

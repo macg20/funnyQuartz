@@ -1,10 +1,12 @@
 package pl.funnyqrz.services.account;
 
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.dto.UserDto;
+import pl.funnyqrz.entities.account.Role;
 import pl.funnyqrz.entities.account.User;
 import pl.funnyqrz.exceptions.UserAlreadyRegisterException;
 import pl.funnyqrz.repositories.UserRepository;
@@ -17,13 +19,16 @@ import static pl.funnyqrz.messages.SystemMessage.USER_ALREADY_EXISTS;
 @Service
 public class UserServiceImpl extends AbstractService implements UserService {
 
-    private UserRepository userRepository;
+    private final static String ROLE_USER = "ROLE_USER";
 
+    private UserRepository userRepository;
+    private RoleService roleService;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -41,7 +46,8 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     private void isExists(String email) {
         userRepository.ifExistsUserEmail(email).stream().findFirst().ifPresent(user -> {
-            throw new UserAlreadyRegisterException(USER_ALREADY_EXISTS);});
+            throw new UserAlreadyRegisterException(USER_ALREADY_EXISTS);
+        });
     }
 
     private User mapDtoToUser(UserDto userDto) {
@@ -52,6 +58,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
         user.setLastName(userDto.getLastName());
         user.setPassword(encryptPassword(userDto.getPassword()));
         user.setEnabled(true);
+        Set<Role> userRole = Sets.newHashSet();
+        userRole.add(getUserRole());
+        user.setRoles(userRole);
         return user;
     }
 
@@ -67,5 +76,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     private String encryptPassword(String password) {
         return passwordEncoder.encode(password);
+    }
+
+    private Role getUserRole() {
+        return roleService.findRoleByName(ROLE_USER);
     }
 }

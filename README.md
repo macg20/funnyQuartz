@@ -1,4 +1,4 @@
-Funnyqrz is a application which download exchange rate currency value(once per day from NBP API) and send email message to all registered users with pdf attachment(downloaded exchange rate).  
+Funnyqrz is a application which download exchange rate currency value(once per day from NBP API) and send email message to all registered users with pdf attachment.  
 
 Current Technologies:
 - Quartz

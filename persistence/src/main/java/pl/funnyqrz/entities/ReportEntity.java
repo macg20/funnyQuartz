@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigInteger;
 import java.sql.Blob;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @GenericGenerator(
@@ -32,6 +32,6 @@ public class ReportEntity {
     private BigInteger id;
     private String fileName;
     private Blob fileContent;
-    private LocalDateTime createDate;
+    private LocalDate createDate;
 
 }

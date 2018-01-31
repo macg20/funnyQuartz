@@ -1,11 +1,8 @@
 package pl.funnyqrz.tests.services;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.ExchangeRateEntity;
 import pl.funnyqrz.entities.ReportEntity;
@@ -19,11 +16,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ReportRendererTest extends AbstractTest{
+public class ReportRendererTest extends AbstractTest {
 
     @Autowired
     PDFReportRenderer pdfReportRenderer;
@@ -42,7 +40,7 @@ public class ReportRendererTest extends AbstractTest{
         ReportEntity reportEntity = new ReportEntity();
         reportEntity.setFileContent(FilesUtils.fileToBlob(dummyReportFile));
         reportEntity.setFileName(dummyReportFile.getName());
-        reportEntity.setCreateDate(LocalDateTime.now());
+        reportEntity.setCreateDate(LocalDate.now());
         reportEntity = reportRepository.saveAndFlush(reportEntity);
         //then
 
@@ -67,7 +65,7 @@ public class ReportRendererTest extends AbstractTest{
         ReportEntity reportEntity = new ReportEntity();
         reportEntity.setFileContent(FilesUtils.fileToBlob(dummyReportFile));
         reportEntity.setFileName(dummyReportFile.getName());
-        reportEntity.setCreateDate(LocalDateTime.now());
+        reportEntity.setCreateDate(LocalDate.now());
         reportEntity = reportRepository.saveAndFlush(reportEntity);
         //then
 

@@ -21,6 +21,8 @@ public class RestExceptionHandler {
 
     Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
 
+    private static final String NEW_LINE = System.getProperty("line.separator");
+
     @ExceptionHandler(value = {UserAlreadyRegisterException.class})
     public ResponseEntity<ErrorMessage> handleUserAlreadyRegister(UserAlreadyRegisterException ex, WebRequest request) {
         logger.error(ex.getMessage());
@@ -32,7 +34,7 @@ public class RestExceptionHandler {
         logger.error(ex.getMessage());
         Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
         String message = constraintViolations.stream().map(constraintViolation -> String.format("%s, %s, %s", constraintViolation.getPropertyPath(),
-                constraintViolation.getInvalidValue(), constraintViolation.getMessage())).collect(Collectors.joining("\n"));
+                constraintViolation.getInvalidValue(), constraintViolation.getMessage())).collect(Collectors.joining(NEW_LINE));
         return new ResponseEntity<ErrorMessage>(new ErrorMessage(message), HttpStatus.BAD_REQUEST);
     }
 
@@ -41,8 +43,8 @@ public class RestExceptionHandler {
         logger.error(ex.getMessage());
         BindingResult result = ex.getBindingResult();
         String message = result.getFieldErrors().stream()
-                .map(fieldError -> String.format("%s", fieldError.getDefaultMessage()))
-                .collect(Collectors.joining("\n"));
+                .map(fieldError -> String.format("%s - %s", fieldError.getDefaultMessage(),fieldError.getField()))
+                .collect(Collectors.joining(NEW_LINE));
         return new ResponseEntity<ErrorMessage>(new ErrorMessage(message), HttpStatus.BAD_REQUEST);
     }
 

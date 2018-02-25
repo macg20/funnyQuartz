@@ -2,13 +2,16 @@ package pl.funnyqrz.services.account;
 
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.funnyqrz.dto.UserDto;
+
 import pl.funnyqrz.entities.account.Role;
 import pl.funnyqrz.entities.account.User;
 import pl.funnyqrz.exceptions.UserAlreadyRegisterException;
+import pl.funnyqrz.mapper.GenericMapper;
+import pl.funnyqrz.mapper.dto.UserDto;
 import pl.funnyqrz.repositories.UserRepository;
 import pl.funnyqrz.services.AbstractService;
 
@@ -24,12 +27,14 @@ public class UserServiceImpl extends AbstractService implements UserService {
     private UserRepository userRepository;
     private RoleService roleService;
     private BCryptPasswordEncoder passwordEncoder;
+    private GenericMapper<UserDto,User> mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder passwordEncoder, @Qualifier("userMapper") GenericMapper mapper) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
+        this.mapper = mapper;
     }
 
     @Override
@@ -51,27 +56,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     private User mapDtoToUser(UserDto userDto) {
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setEmail(userDto.getEmail());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setPassword(encryptPassword(userDto.getPassword()));
-        user.setEnabled(true);
-        Set<Role> userRole = Sets.newHashSet();
-        userRole.add(getUserRole());
-        user.setRoles(userRole);
+        User user = mapper.mapToEntity(userDto);
+        user.setPassword(encryptPassword(user.getPassword()));
+        user.getRoles().add(getUserRole());
         return user;
-    }
-
-    private UserDto mapUserToDto(User user) {
-        UserDto dto = new UserDto();
-        dto.setId(user.getId());
-        dto.setEmail(user.getEmail());
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
-        dto.setEnabled(user.isEnabled());
-        return dto;
     }
 
     private String encryptPassword(String password) {

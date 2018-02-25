@@ -2,6 +2,8 @@ package pl.funnyqrz.services.reports;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.ReportEntity;
 import pl.funnyqrz.repositories.ReportRepository;
 
@@ -10,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@Transactional
 public class ReportServiceImpl implements ReportService {
 
     private ReportRepository reportRepository;

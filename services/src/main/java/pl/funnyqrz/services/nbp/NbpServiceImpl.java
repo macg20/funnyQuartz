@@ -14,14 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.funnyqrz.entities.EventLogEntity;
 import pl.funnyqrz.entities.ExchangeRateEntity;
 import pl.funnyqrz.exceptions.ApplicationException;
+import pl.funnyqrz.exceptions.InvalidHostException;
 import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.eventlog.EventLogService;
 import pl.funnyqrz.services.exchangerate.ExchangeRateService;
 import pl.funnyqrz.services.helpers.ExchangeRateValidator;
-import pl.funnyqrz.exceptions.InvalidHostException;
 import pl.funnyqrz.utils.resource.PropertiesValidator;
 
 import java.io.BufferedReader;
@@ -79,9 +78,8 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
         ExchangeRateEntity exchangeRateEntity = getExchangeRate();
         if (!ExchangeRateValidator.validate(exchangeRateEntity)) {
             getLogger().info("Saving exchange rate");
-         return  exchangeRateService.save(exchangeRateEntity);
-        }
-        else
+            return exchangeRateService.save(exchangeRateEntity);
+        } else
             throw new ApplicationException("Not valid exchange rate");
     }
 
@@ -131,7 +129,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
                 jsonToExchangeRateEntity(value, exchangeRateEntity);
             } catch (JSONException jsonException) {
                 getLogger().error("Error while parsing..", jsonException);
-                eventLogService.registerEvent( jsonException.getMessage(), LocalDateTime.now());
+                eventLogService.registerEvent(jsonException.getMessage(), LocalDateTime.now());
                 return exchangeRateEntity;
             }
         }

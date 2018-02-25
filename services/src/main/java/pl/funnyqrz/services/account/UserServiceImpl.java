@@ -1,6 +1,5 @@
 package pl.funnyqrz.services.account;
 
-import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.account.Role;
 import pl.funnyqrz.entities.account.User;
 import pl.funnyqrz.exceptions.UserAlreadyRegisterException;
-import pl.funnyqrz.mapper.GenericMapper;
+import pl.funnyqrz.mapper.AbstractMapper;
 import pl.funnyqrz.mapper.dto.UserDto;
 import pl.funnyqrz.repositories.UserRepository;
 import pl.funnyqrz.services.AbstractService;
@@ -27,10 +26,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
     private UserRepository userRepository;
     private RoleService roleService;
     private BCryptPasswordEncoder passwordEncoder;
-    private GenericMapper<UserDto,User> mapper;
+    private AbstractMapper<UserDto,User> mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder passwordEncoder, @Qualifier("userMapper") GenericMapper mapper) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder passwordEncoder, @Qualifier("userMapper") AbstractMapper mapper) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;

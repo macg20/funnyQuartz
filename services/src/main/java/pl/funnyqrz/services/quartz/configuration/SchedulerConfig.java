@@ -1,9 +1,7 @@
 package pl.funnyqrz.services.quartz.configuration;
 
 
-import org.quartz.DateBuilder;
 import org.quartz.JobDetail;
-import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,9 +10,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import pl.funnyqrz.services.quartz.ExchangeRateDownloader;
 
 import java.io.IOException;
@@ -33,23 +31,20 @@ public class SchedulerConfig implements Serializable {
     }
 
     @Bean
-    public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory, Trigger simpleJobTrigger)
+    public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory, Trigger cronTrigger)
             throws IOException {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
         factory.setJobFactory(jobFactory);
         factory.setQuartzProperties(quartzProperties());
-        factory.setTriggers(simpleJobTrigger);
+        factory.setTriggers(cronTrigger);
         return factory;
     }
 
     @Bean
-    public SimpleTriggerFactoryBean simpleJobTrigger(@Qualifier("simpleJobDetail") JobDetail jobDetail) {
-
-        SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
+    public CronTriggerFactoryBean cronJobTrigger(@Qualifier("simpleJobDetail") JobDetail jobDetail) {
+        CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
-        factoryBean.setStartDelay(0L);
-        factoryBean.setRepeatInterval(DateBuilder.MILLISECONDS_IN_DAY);
-        factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
+        factoryBean.setCronExpression("0 30/30 8 ? * * *");
         return factoryBean;
     }
 

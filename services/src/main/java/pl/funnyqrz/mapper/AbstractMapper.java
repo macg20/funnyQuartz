@@ -1,6 +1,6 @@
 package pl.funnyqrz.mapper;
 
-public interface GenericMapper<T,S> {
+public interface AbstractMapper<T,S> {
 
     T mapToDTO(S entity);
 

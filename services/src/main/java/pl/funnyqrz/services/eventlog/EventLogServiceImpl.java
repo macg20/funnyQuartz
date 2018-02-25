@@ -9,6 +9,7 @@ import pl.funnyqrz.repositories.EventLogRepository;
 import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.eventlog.EventLogService;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -26,13 +27,6 @@ public class EventLogServiceImpl extends AbstractService implements EventLogServ
     }
 
     @Override
-    @Transactional
-    public void save(EventLogEntity eventLogEntity) {
-        getLogger().info("Save event log");
-        eventLogRepository.save(eventLogEntity);
-    }
-
-    @Override
     public Collection<EventLogEntity> findAll() {
         getLogger().info("fetch event logs");
         return eventLogRepository.findAll();
@@ -42,6 +36,12 @@ public class EventLogServiceImpl extends AbstractService implements EventLogServ
     public Collection<EventLogEntity> findLast100rows() {
         Collection<EventLogEntity> logs = eventLogRepository.findAll();
         return logs.stream().skip(Math.max(0, logs.size() - LAST_ROWS)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void registerEvent(String description, LocalDateTime time) {
+        EventLogEntity eventLogEntity = new EventLogEntity(description,time);
+        eventLogRepository.save(eventLogEntity);
     }
 
 }

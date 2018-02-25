@@ -11,7 +11,7 @@ import pl.funnyqrz.mapper.dto.UserDto;
 import java.util.Set;
 
 @Component("userMapper")
-public class UserMapper implements GenericMapper<UserDto,User> {
+public class UserMapper implements AbstractMapper<UserDto,User> {
 
     private PasswordEncoder passwordEncoder;
 

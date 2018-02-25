@@ -16,31 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FilesUtilsTest {
 
     @Test
-    public void fileToByteArrayTest() throws IOException {
-        // given
-        File dummyFile = readDummyFile();
-
-        // when
-        byte[] dummyByteArray = FilesUtils.fileToByteArray(dummyFile);
-
-        //then
-        assertThat(dummyByteArray).isNotEmpty();
-    }
-
-
-    @Test
-    public void nullFileToByteArrayTest() throws IOException {
-        // given
-        File dummyFile = null;
-
-        // when
-        byte[] dummyByteArray = FilesUtils.fileToByteArray(dummyFile);
-
-        //then
-        assertThat(dummyByteArray).isNullOrEmpty();
-    }
-
-    @Test
     public void fileToBlobTest() throws IOException, SQLException {
         // given
         File dummyFile = readDummyFile();

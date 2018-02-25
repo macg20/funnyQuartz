@@ -1,7 +1,7 @@
 package pl.funnyqrz.services.account;
 
-import pl.funnyqrz.dto.UserDto;
 import pl.funnyqrz.entities.account.User;
+import pl.funnyqrz.mapper.dto.UserDto;
 
 import java.util.Set;
 

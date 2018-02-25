@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class FilesUtils {
 
-    public final static byte[] fileToByteArray(File file) throws IOException {
+    private final static byte[] fileToByteArray(File file) throws IOException {
         if (file == null)
             return null;
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");

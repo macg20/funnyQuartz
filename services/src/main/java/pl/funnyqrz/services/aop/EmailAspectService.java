@@ -10,15 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import pl.funnyqrz.entities.ExchangeRateEntity;
+import pl.funnyqrz.entities.ReportEntity;
+import pl.funnyqrz.exceptions.ApplicationException;
 import pl.funnyqrz.exceptions.NotFoundDatabaseRecord;
 import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.account.UserService;
 import pl.funnyqrz.services.email.EmailService;
 import pl.funnyqrz.services.reports.PDFReportRenderer;
+import pl.funnyqrz.services.reports.ReportService;
+import pl.funnyqrz.utils.resource.FilesUtils;
 
 import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Aspect
@@ -28,12 +33,14 @@ public class EmailAspectService extends AbstractService {
     private EmailService emailService;
     private PDFReportRenderer pdfReportRenderer;
     private UserService userService;
+    private ReportService reportService;
 
     @Autowired
-    public EmailAspectService(EmailService emailService, PDFReportRenderer pdfReportRenderer, UserService userService) {
+    public EmailAspectService(EmailService emailService, PDFReportRenderer pdfReportRenderer, UserService userService, ReportService reportService) {
         this.emailService = emailService;
         this.pdfReportRenderer = pdfReportRenderer;
         this.userService = userService;
+        this.reportService = reportService;
     }
 
 
@@ -45,20 +52,37 @@ public class EmailAspectService extends AbstractService {
 
     @AfterReturning(value = "execution(* pl.funnyqrz.services.nbp.NbpServiceImpl.downloadAndSaveExchangeRate(..))", returning = "result")
     public void generateReportAfterDownloadedExchangeRateAndSendEmialForUsers(JoinPoint joinPoint, Object result) throws IOException, MessagingException {
-        getLogger().error("Start aspect..");
+
         File report = pdfReportRenderer.renderReport((ExchangeRateEntity) result);
-        Set<File> attachments = Sets.newHashSet(report);
-        Set<String> emailAddresses = findAllEmails();
-        //TODO save reports in db
-        //TODO render content
-        emailService.sendMessage("TEST", "TEST", emailAddresses, attachments);
+        reportService.save(createReportEntity(report));
+
+        try {
+            Set<String> emailAddresses = findAllEmails();
+            Set<File> attachments = Sets.newHashSet(report);
+            emailService.sendMessage("TEST", "TEST", emailAddresses, attachments);
+        } catch (NotFoundDatabaseRecord e) {
+            getLogger().error(e.getMessage());
+        }
+        report.deleteOnExit();
     }
 
     private Set<String> findAllEmails() {
         Set<String> emails = userService.findAllEmails();
         if (!CollectionUtils.isEmpty(emails))
             return emails;
-        else
-            throw new NotFoundDatabaseRecord("Set of emails is empty!");
+        throw new NotFoundDatabaseRecord("Set of emails is empty!");
+    }
+
+    private ReportEntity createReportEntity(File pdfReport) {
+        try {
+            ReportEntity report = new ReportEntity();
+            report.setCreateDate(LocalDate.now());
+            report.setFileName(pdfReport.getName());
+            report.setFileContent(FilesUtils.fileToBlob(pdfReport));
+            return report;
+        } catch (Exception e) {
+            getLogger().error("Cannot create report entity", e);
+            throw new ApplicationException("Cannot create report entity", e);
+        }
     }
 }

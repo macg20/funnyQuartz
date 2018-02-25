@@ -16,6 +16,7 @@ import pl.funnyqrz.exceptions.NotFoundDatabaseRecord;
 import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.account.UserService;
 import pl.funnyqrz.services.email.EmailService;
+import pl.funnyqrz.services.eventlog.EventLogService;
 import pl.funnyqrz.services.reports.PDFReportRenderer;
 import pl.funnyqrz.services.reports.ReportService;
 import pl.funnyqrz.utils.resource.FilesUtils;
@@ -24,6 +25,7 @@ import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Aspect
@@ -34,15 +36,16 @@ public class EmailAspectService extends AbstractService {
     private PDFReportRenderer pdfReportRenderer;
     private UserService userService;
     private ReportService reportService;
+    private EventLogService eventLogService;
 
     @Autowired
-    public EmailAspectService(EmailService emailService, PDFReportRenderer pdfReportRenderer, UserService userService, ReportService reportService) {
+    public EmailAspectService(EmailService emailService, PDFReportRenderer pdfReportRenderer, UserService userService, ReportService reportService, EventLogService eventLogService) {
         this.emailService = emailService;
         this.pdfReportRenderer = pdfReportRenderer;
         this.userService = userService;
         this.reportService = reportService;
+        this.eventLogService = eventLogService;
     }
-
 
     @Before("execution(* pl.funnyqrz.services.nbp.NbpServiceImpl.downloadAndSaveExchangeRate(..))")
     public void logBeforeDownloadAndSaveExchangeRate(JoinPoint joinPoint) {
@@ -60,8 +63,11 @@ public class EmailAspectService extends AbstractService {
             Set<String> emailAddresses = findAllEmails();
             Set<File> attachments = Sets.newHashSet(report);
             emailService.sendMessage("TEST", "TEST", emailAddresses, attachments);
-        } catch (NotFoundDatabaseRecord e) {
+
+        } catch (Exception e) {
             getLogger().error(e.getMessage());
+            eventLogService.registerEvent(e.getMessage(), LocalDateTime.now());
+
         }
         report.deleteOnExit();
     }

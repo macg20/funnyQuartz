@@ -68,7 +68,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
             return response.getStatusLine().getStatusCode() == HttpStatus.SC_OK;
         } catch (IOException e) {
             getLogger().error("Cannot connet with url: " + host, e);
-            eventLogService.save(new EventLogEntity("Cannot connet with url: " + host, LocalDateTime.now()));
+            eventLogService.registerEvent("Cannot connet with url: " + host, LocalDateTime.now());
             return false;
         }
     }
@@ -107,18 +107,18 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
 
         } catch (MalformedURLException e) {
             getLogger().error("Error while establish connect", e);
-            eventLogService.save(new EventLogEntity("error while establish connect, class:" + getClass().toString(), LocalDateTime.now()));
+            eventLogService.registerEvent("error while establish connect, class:" + getClass().toString(), LocalDateTime.now());
 
         } catch (IOException e) {
             getLogger().error("Error while establish connect", e);
-            eventLogService.save(new EventLogEntity("Error while establish connect, class:" + getClass().toString(), LocalDateTime.now()));
+            eventLogService.registerEvent("Error while establish connect, class:" + getClass().toString(), LocalDateTime.now());
         } catch (InvalidHostException e) {
             getLogger().error("Invalid host, enter a valid host in properties", e);
-            eventLogService.save(new EventLogEntity("Invalid host, enter a valid host in properties, class:" + getClass().toString(), LocalDateTime.now()));
+            eventLogService.registerEvent("Invalid host, enter a valid host in properties, class:" + getClass().toString(), LocalDateTime.now());
 
         } finally {
             getLogger().info("Successful download from NBP API");
-            eventLogService.save(new EventLogEntity("Successful download from NBP API:" + getClass().toString(), LocalDateTime.now()));
+            eventLogService.registerEvent("Successful download from NBP API:" + getClass().toString(), LocalDateTime.now());
 
         }
         return Strings.nullToEmpty(null);
@@ -131,7 +131,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
                 jsonToExchangeRateEntity(value, exchangeRateEntity);
             } catch (JSONException jsonException) {
                 getLogger().error("Error while parsing..", jsonException);
-                eventLogService.save(new EventLogEntity(jsonException.getMessage(), LocalDateTime.now()));
+                eventLogService.registerEvent( jsonException.getMessage(), LocalDateTime.now());
                 return exchangeRateEntity;
             }
         }

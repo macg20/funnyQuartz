@@ -28,7 +28,7 @@ public class ReportRestService {
         return reportService.findAllReport();
     }
 
-    @GetMapping("/{reportId}")
+    @GetMapping("/content/{reportId}")
     public ReportContentDto reportContentById(@PathVariable("reportId") BigInteger reportId) {
         return reportService.findReportContentById(reportId);
     }

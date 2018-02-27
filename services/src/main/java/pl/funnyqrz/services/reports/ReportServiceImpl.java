@@ -12,7 +12,6 @@ import pl.funnyqrz.repositories.ReportRepository;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,8 +24,10 @@ public class ReportServiceImpl implements ReportService {
     private ReportContentMapper reportContentMapper;
 
     @Autowired
-    public ReportServiceImpl(ReportRepository reportRepository) {
+    public ReportServiceImpl(ReportRepository reportRepository, ReportMapper reportMapper, ReportContentMapper reportContentMapper) {
         this.reportRepository = reportRepository;
+        this.reportMapper = reportMapper;
+        this.reportContentMapper = reportContentMapper;
     }
 
     @Override
@@ -37,7 +38,6 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Set<ReportDto> findAllReport() {
-
         return reportRepository.findAll().stream().map(s -> reportMapper.toDto(s)).collect(Collectors.toSet());
     }
 

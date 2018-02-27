@@ -32,6 +32,7 @@ public class ReportRepositoryTest extends AbstractTest {
         //then
         assertThat(reports).isNotEqualTo(null);
         assertThat(reports).isEmpty();
+
     }
 
 }

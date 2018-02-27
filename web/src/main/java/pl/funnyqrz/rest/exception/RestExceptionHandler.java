@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import pl.funnyqrz.exceptions.UserAlreadyRegisterException;
+import pl.funnyqrz.utils.strings.SeparatorUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -20,8 +21,6 @@ import java.util.stream.Collectors;
 public class RestExceptionHandler {
 
     Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
-
-    private static final String NEW_LINE = System.getProperty("line.separator");
 
     @ExceptionHandler(value = {UserAlreadyRegisterException.class})
     public ResponseEntity<ErrorMessage> handleUserAlreadyRegister(UserAlreadyRegisterException ex, WebRequest request) {
@@ -34,7 +33,7 @@ public class RestExceptionHandler {
         logger.error(ex.getMessage());
         Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
         String message = constraintViolations.stream().map(constraintViolation -> String.format("%s, %s, %s", constraintViolation.getPropertyPath(),
-                constraintViolation.getInvalidValue(), constraintViolation.getMessage())).collect(Collectors.joining(NEW_LINE));
+                constraintViolation.getInvalidValue(), constraintViolation.getMessage())).collect(Collectors.joining(SeparatorUtils.lineSeparator()));
         return new ResponseEntity<ErrorMessage>(new ErrorMessage(message), HttpStatus.BAD_REQUEST);
     }
 
@@ -44,7 +43,7 @@ public class RestExceptionHandler {
         BindingResult result = ex.getBindingResult();
         String message = result.getFieldErrors().stream()
                 .map(fieldError -> String.format("%s - %s", fieldError.getDefaultMessage(),fieldError.getField()))
-                .collect(Collectors.joining(NEW_LINE));
+                .collect(Collectors.joining(SeparatorUtils.lineSeparator()));
         return new ResponseEntity<ErrorMessage>(new ErrorMessage(message), HttpStatus.BAD_REQUEST);
     }
 

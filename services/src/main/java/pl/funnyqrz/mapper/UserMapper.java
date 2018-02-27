@@ -11,7 +11,7 @@ import pl.funnyqrz.mapper.dto.UserDto;
 import java.util.Set;
 
 @Component("userMapper")
-public class UserMapper implements AbstractMapper<UserDto,User> {
+public class UserMapper implements AbstractMapper<UserDto, User> {
 
     private PasswordEncoder passwordEncoder;
 
@@ -21,7 +21,7 @@ public class UserMapper implements AbstractMapper<UserDto,User> {
     }
 
     @Override
-    public UserDto mapToDTO(User entity) {
+    public UserDto toDto(User entity) {
         UserDto dto = new UserDto();
         dto.setId(entity.getId());
         dto.setEmail(entity.getEmail());
@@ -32,7 +32,7 @@ public class UserMapper implements AbstractMapper<UserDto,User> {
     }
 
     @Override
-    public User mapToEntity(UserDto dto) {
+    public User toEntity(UserDto dto) {
         User user = new User();
         user.setId(dto.getId());
         user.setEmail(dto.getEmail());

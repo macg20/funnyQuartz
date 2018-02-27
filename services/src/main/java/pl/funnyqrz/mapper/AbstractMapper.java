@@ -2,7 +2,7 @@ package pl.funnyqrz.mapper;
 
 public interface AbstractMapper<T,S> {
 
-    T mapToDTO(S entity);
+    T toDto(S entity);
 
-    S mapToEntity(T dto);
+    S toEntity(T dto);
 }

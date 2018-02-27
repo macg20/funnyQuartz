@@ -55,7 +55,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     private User mapDtoToUser(UserDto userDto) {
-        User user = mapper.mapToEntity(userDto);
+        User user = mapper.toEntity(userDto);
         user.setPassword(encryptPassword(user.getPassword()));
         user.getRoles().add(getUserRole());
         return user;

@@ -1,4 +1,4 @@
-package pl.funnyqrz.mapper;
+package pl.funnyqrz.mappers;
 
 public interface AbstractMapper<T,S> {
 

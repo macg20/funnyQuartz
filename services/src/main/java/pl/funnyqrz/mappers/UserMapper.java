@@ -1,4 +1,4 @@
-package pl.funnyqrz.mapper;
+package pl.funnyqrz.mappers;
 
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.funnyqrz.entities.account.Role;
 import pl.funnyqrz.entities.account.User;
-import pl.funnyqrz.mapper.dto.UserDto;
+import pl.funnyqrz.mappers.dto.UserDto;
 
 import java.util.Set;
 

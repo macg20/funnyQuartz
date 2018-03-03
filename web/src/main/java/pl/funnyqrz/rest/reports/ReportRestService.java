@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.funnyqrz.mapper.dto.ReportContentDto;
-import pl.funnyqrz.mapper.dto.ReportDto;
+import pl.funnyqrz.mappers.dto.ReportContentDto;
+import pl.funnyqrz.mappers.dto.ReportDto;
 import pl.funnyqrz.services.reports.ReportService;
 
 import java.math.BigInteger;

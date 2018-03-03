@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.ExchangeRateEntity;
+import pl.funnyqrz.enums.EventLogTypeEnum;
 import pl.funnyqrz.exceptions.ApplicationException;
 import pl.funnyqrz.exceptions.InvalidHostException;
 import pl.funnyqrz.services.AbstractService;
@@ -67,7 +68,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
             return response.getStatusLine().getStatusCode() == HttpStatus.SC_OK;
         } catch (IOException e) {
             getLogger().error("Cannot connet with url: " + host, e);
-            eventLogService.registerEvent("Cannot connet with url: " + host, LocalDateTime.now());
+            eventLogService.registerEvent("Cannot connet with url: " + host, LocalDateTime.now(), EventLogTypeEnum.ERROR);
             return false;
         }
     }
@@ -105,18 +106,18 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
 
         } catch (MalformedURLException e) {
             getLogger().error("Error while establish connect", e);
-            eventLogService.registerEvent("error while establish connect, class:" + getClass().toString(), LocalDateTime.now());
+            eventLogService.registerEvent("error while establish connect, class:" + getClass().toString(), LocalDateTime.now(), EventLogTypeEnum.ERROR);
 
         } catch (IOException e) {
             getLogger().error("Error while establish connect", e);
-            eventLogService.registerEvent("Error while establish connect, class:" + getClass().toString(), LocalDateTime.now());
+            eventLogService.registerEvent("Error while establish connect, class:" + getClass().toString(), LocalDateTime.now(), EventLogTypeEnum.ERROR);
         } catch (InvalidHostException e) {
             getLogger().error("Invalid host, enter a valid host in properties", e);
-            eventLogService.registerEvent("Invalid host, enter a valid host in properties, class:" + getClass().toString(), LocalDateTime.now());
+            eventLogService.registerEvent("Invalid host, enter a valid host in properties, class:" + getClass().toString(), LocalDateTime.now(), EventLogTypeEnum.ERROR);
 
         } finally {
             getLogger().info("Successful download from NBP API");
-            eventLogService.registerEvent("Successful download from NBP API:" + getClass().toString(), LocalDateTime.now());
+            eventLogService.registerEvent("Successful download from NBP API:" + getClass().toString(), LocalDateTime.now(), EventLogTypeEnum.ERROR);
 
         }
         return Strings.nullToEmpty(null);
@@ -129,7 +130,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
                 jsonToExchangeRateEntity(value, exchangeRateEntity);
             } catch (JSONException jsonException) {
                 getLogger().error("Error while parsing..", jsonException);
-                eventLogService.registerEvent(jsonException.getMessage(), LocalDateTime.now());
+                eventLogService.registerEvent(jsonException.getMessage(), LocalDateTime.now(), EventLogTypeEnum.ERROR);
                 return exchangeRateEntity;
             }
         }

@@ -1,8 +1,8 @@
-package pl.funnyqrz.mapper;
+package pl.funnyqrz.mappers;
 
 import org.springframework.stereotype.Component;
 import pl.funnyqrz.entities.ReportEntity;
-import pl.funnyqrz.mapper.dto.ReportDto;
+import pl.funnyqrz.mappers.dto.ReportDto;
 
 @Component
 public class ReportMapper implements AbstractMapper<ReportDto, ReportEntity> {

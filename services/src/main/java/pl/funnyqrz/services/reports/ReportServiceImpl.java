@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.ReportEntity;
-import pl.funnyqrz.mapper.ReportContentMapper;
-import pl.funnyqrz.mapper.ReportMapper;
-import pl.funnyqrz.mapper.dto.ReportContentDto;
-import pl.funnyqrz.mapper.dto.ReportDto;
+import pl.funnyqrz.mappers.ReportContentMapper;
+import pl.funnyqrz.mappers.ReportMapper;
+import pl.funnyqrz.mappers.dto.ReportContentDto;
+import pl.funnyqrz.mappers.dto.ReportDto;
 import pl.funnyqrz.repositories.ReportRepository;
 
 import java.math.BigInteger;

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.EventLogEntity;
+import pl.funnyqrz.enums.EventLogTypeEnum;
 import pl.funnyqrz.repositories.EventLogRepository;
 import pl.funnyqrz.services.AbstractService;
 import pl.funnyqrz.services.eventlog.EventLogService;
@@ -39,8 +40,8 @@ public class EventLogServiceImpl extends AbstractService implements EventLogServ
     }
 
     @Override
-    public void registerEvent(String description, LocalDateTime time) {
-        EventLogEntity eventLogEntity = new EventLogEntity(description,time);
+    public void registerEvent(String description, LocalDateTime time, EventLogTypeEnum type) {
+        EventLogEntity eventLogEntity = new EventLogEntity(description,time, type);
         eventLogRepository.save(eventLogEntity);
     }
 

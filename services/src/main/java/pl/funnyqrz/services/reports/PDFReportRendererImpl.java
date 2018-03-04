@@ -106,7 +106,7 @@ public class PDFReportRendererImpl extends AbstractService implements PDFReportR
         stringBuilder.append("\n");
         stringBuilder.append("USD: " + exchangeRateEntity.getUsdExchangeRate());
         stringBuilder.append("\n");
-        stringBuilder.append("GBF: " + exchangeRateEntity.getGbfExchangeRate());
+        stringBuilder.append("GBF: " + exchangeRateEntity.getGbpExchangeRate());
         return stringBuilder.toString();
     }
 

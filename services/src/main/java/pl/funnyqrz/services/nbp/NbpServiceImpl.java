@@ -153,7 +153,7 @@ public class NbpServiceImpl extends AbstractService implements NbpService {
                     exchangeRateEntity.setChfExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
                     break;
                 case CURRENCY_GBP:
-                    exchangeRateEntity.setGbfExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
+                    exchangeRateEntity.setGbpExchangeRate(jsonArray.getJSONObject(i).getBigDecimal(CURRENCY_MID));
                     break;
             }
         }

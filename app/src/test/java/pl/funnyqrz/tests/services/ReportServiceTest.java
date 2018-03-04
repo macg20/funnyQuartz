@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.funnyqrz.entities.ReportEntity;
-import pl.funnyqrz.mapper.dto.ReportDto;
+import pl.funnyqrz.mappers.dto.ReportDto;
 import pl.funnyqrz.repositories.ReportRepository;
 import pl.funnyqrz.services.reports.ReportService;
 import pl.funnyqrz.tests.AbstractTest;

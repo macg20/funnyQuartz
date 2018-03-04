@@ -1,8 +1,8 @@
 package pl.funnyqrz.services.reports;
 
 import pl.funnyqrz.entities.ReportEntity;
-import pl.funnyqrz.mapper.dto.ReportContentDto;
-import pl.funnyqrz.mapper.dto.ReportDto;
+import pl.funnyqrz.mappers.dto.ReportContentDto;
+import pl.funnyqrz.mappers.dto.ReportDto;
 
 import java.math.BigInteger;
 import java.time.LocalDate;

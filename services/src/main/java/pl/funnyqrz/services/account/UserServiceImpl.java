@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.account.Role;
 import pl.funnyqrz.entities.account.User;
 import pl.funnyqrz.exceptions.UserAlreadyRegisterException;
-import pl.funnyqrz.mapper.AbstractMapper;
-import pl.funnyqrz.mapper.dto.UserDto;
+import pl.funnyqrz.mappers.AbstractMapper;
+import pl.funnyqrz.mappers.dto.UserDto;
 import pl.funnyqrz.repositories.UserRepository;
 import pl.funnyqrz.services.AbstractService;
 

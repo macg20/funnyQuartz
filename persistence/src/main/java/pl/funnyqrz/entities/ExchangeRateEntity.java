@@ -27,7 +27,7 @@ public class ExchangeRateEntity {
     private BigDecimal usdExchangeRate; //dolar amerykanski
     private BigDecimal eurExchangeRate; //euro
     private BigDecimal chfExchangeRate; //frank szwajcarski
-    private BigDecimal gbfExchangeRate; // funt szterling
+    private BigDecimal gbpExchangeRate; // funt szterling
     private LocalDateTime createDate;
 
     @Version

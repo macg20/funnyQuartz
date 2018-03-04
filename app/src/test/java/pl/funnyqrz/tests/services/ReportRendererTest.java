@@ -78,7 +78,7 @@ public class ReportRendererTest extends AbstractTest {
         ExchangeRateEntity dummyExchnageRate = new ExchangeRateEntity();
         dummyExchnageRate.setChfExchangeRate(BigDecimal.ONE);
         dummyExchnageRate.setEurExchangeRate(BigDecimal.TEN);
-        dummyExchnageRate.setGbfExchangeRate(BigDecimal.ONE);
+        dummyExchnageRate.setGbpExchangeRate(BigDecimal.ONE);
         dummyExchnageRate.setUsdExchangeRate(BigDecimal.TEN);
         dummyExchnageRate.setCreateDate(LocalDateTime.now());
         return dummyExchnageRate;

@@ -34,13 +34,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authToken = jwtHelper.getToken(request);
 
         if (authToken != null) {
-            // get username from token
             username = jwtHelper.getUsernameFromToken(authToken);
             if (username != null) {
-                // get user
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 if (jwtHelper.validateToken(authToken, userDetails)) {
-                    // create account
                     JwtBasedAuthentication authentication = new JwtBasedAuthentication(userDetails);
                     authentication.setToken(authToken);
                     SecurityContextHolder.getContext().setAuthentication(authentication);

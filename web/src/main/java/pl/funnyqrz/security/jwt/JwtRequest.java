@@ -1,0 +1,37 @@
+package pl.funnyqrz.security.jwt;
+
+import javax.validation.constraints.NotEmpty;
+
+public class JwtRequest {
+
+    @NotEmpty
+    private String username;
+
+    @NotEmpty
+    private String password;
+
+    public JwtRequest() {
+
+    }
+
+    public JwtRequest(String username, String password) {
+        this.setUsername(username);
+        this.setPassword(password);
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}

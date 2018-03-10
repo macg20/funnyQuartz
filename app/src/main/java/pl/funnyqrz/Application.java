@@ -1,6 +1,5 @@
 package pl.funnyqrz;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import pl.funnyqrz.entities.account.Role;
+import pl.funnyqrz.entities.account.RoleEntity;
 import pl.funnyqrz.services.account.RoleService;
 import pl.funnyqrz.services.quartz.configuration.SchedulerConfig;
 
@@ -48,11 +47,11 @@ public class Application implements CommandLineRunner {
     public void run(String... strings) throws Exception {
 
         try {
-            Role roleUser = new Role();
+            RoleEntity roleUser = new RoleEntity();
             roleUser.setName("ROLE_USER");
             roleService.save(roleUser);
 
-            Role roleAdmin = new Role();
+            RoleEntity roleAdmin = new RoleEntity();
             roleAdmin.setName("ROLE_ADMIN");
             roleService.save(roleAdmin);
         } catch (DataIntegrityViolationException ex) {

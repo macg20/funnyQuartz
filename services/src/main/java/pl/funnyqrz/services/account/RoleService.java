@@ -1,12 +1,12 @@
 package pl.funnyqrz.services.account;
 
-import pl.funnyqrz.entities.account.Role;
+import pl.funnyqrz.entities.account.RoleEntity;
 
 import javax.validation.Valid;
 
 public interface RoleService {
 
-    Role save(@Valid Role role);
+    RoleEntity save(@Valid RoleEntity role);
 
-    Role findRoleByName(String name);
+    RoleEntity findRoleByName(String name);
 }

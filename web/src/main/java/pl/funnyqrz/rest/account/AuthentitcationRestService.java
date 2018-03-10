@@ -33,13 +33,12 @@ public class AuthentitcationRestService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User user = (User) authentication.getPrincipal();
 
         String token = jwtHelper.generateToken(user.getUsername());
 
-        return ResponseEntity.ok(new JwtResponse());
+        return ResponseEntity.ok(new JwtResponse(jwtHelper.getExpiresIn(),token));
     }
 
 

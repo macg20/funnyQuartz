@@ -15,18 +15,16 @@ import java.util.Date;
 public class JwtHelper {
 
     @Value("${app.name}")
-    private String APP_NAME;
+    private String appName;
 
     @Value("${jwt.expires_in}")
-    private int EXPIRES_IN;
+    private int expiresIn;
 
     @Value("${jwt.header}")
-    private String AUTH_HEADER;
+    private String authHeader;
 
     @Value("${jwt.secret_key}")
-    private String SECRET_KEY;
-
-    private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
+    private String secretKey;
 
     public String getUsernameFromToken(String token) {
         String username;
@@ -53,11 +51,11 @@ public class JwtHelper {
     public String generateToken(String username) {
         Date startDate = new Date();
         return Jwts.builder()
-                .setIssuer(APP_NAME)
+                .setIssuer(appName)
                 .setSubject(username)
                 .setIssuedAt(startDate)
                 .setExpiration(generateExpirationDate(startDate))
-                .signWith(SIGNATURE_ALGORITHM, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
 
@@ -65,7 +63,7 @@ public class JwtHelper {
         Claims claims;
         try {
             claims = Jwts.parser()
-                    .setSigningKey(SECRET_KEY)
+                    .setSigningKey(secretKey)
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
@@ -75,7 +73,7 @@ public class JwtHelper {
     }
 
     private Date generateExpirationDate(Date startDate) {
-        return new Date(startDate.getTime() + EXPIRES_IN);
+        return new Date(startDate.getTime() + expiresIn);
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
@@ -112,5 +110,9 @@ public class JwtHelper {
     private Date getExpirationToken(String token) {
         Claims claims = getAllClaimsFromToken(token);
         return claims.getExpiration();
+    }
+
+    public int getExpiresIn() {
+        return expiresIn;
     }
 }

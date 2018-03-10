@@ -18,7 +18,7 @@ import java.util.HashSet;
                 @Parameter(name = "initial_value", value = "1"),
                 @Parameter(name = "increment_value", value = "1")})
 @Data
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(generator = "users_generator")
@@ -37,7 +37,7 @@ public class User {
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles = new HashSet<>();
+    private Collection<RoleEntity> roles = new HashSet<>();
 
 
 }

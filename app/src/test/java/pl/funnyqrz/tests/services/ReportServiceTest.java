@@ -1,8 +1,11 @@
 package pl.funnyqrz.tests.services;
 
 import com.google.common.collect.Lists;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.ReportEntity;
 import pl.funnyqrz.mappers.dto.ReportDto;
 import pl.funnyqrz.repositories.ReportRepository;
@@ -18,6 +21,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional
 public class ReportServiceTest extends AbstractTest {
 
     @Autowired
@@ -25,6 +29,7 @@ public class ReportServiceTest extends AbstractTest {
 
     @Autowired
     ReportService reportService;
+
 
     @Test
     public void findAllReportsTest() throws SQLException {

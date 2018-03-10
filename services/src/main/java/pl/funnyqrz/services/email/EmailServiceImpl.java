@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import pl.funnyqrz.entities.account.UserEntity;
 import pl.funnyqrz.exceptions.ApplicationException;
 import pl.funnyqrz.services.AbstractService;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -51,6 +53,11 @@ public class EmailServiceImpl extends AbstractService implements EmailService {
 
                 });
 
+    }
+
+    @Override
+    public void sendActivationAccountMessage(UserEntity user) {
+        throw new NotImplementedException();
     }
 
     private void setMessageReceiver(MimeMessage message, InternetAddress receiver) {

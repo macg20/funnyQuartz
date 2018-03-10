@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional
 public class ReportRendererTest extends AbstractTest {
 
     @Autowired
@@ -53,8 +54,6 @@ public class ReportRendererTest extends AbstractTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void saveReportInDatabaseTest() throws IOException, SQLException {
 
         // given

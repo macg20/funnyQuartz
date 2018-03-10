@@ -1,12 +1,11 @@
 package pl.funnyqrz.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pl.funnyqrz.entities.account.Privilege;
-import pl.funnyqrz.entities.account.Role;
+import pl.funnyqrz.entities.account.RoleEntity;
 
 import java.math.BigInteger;
 
-public interface RoleRepository extends JpaRepository<Role,BigInteger> {
+public interface RoleRepository extends JpaRepository<RoleEntity,BigInteger> {
 
-    Role findByName(String name);
+    RoleEntity findByName(String name);
 }

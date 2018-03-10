@@ -64,9 +64,8 @@ public class EmailAspectService extends AbstractService {
             Set<String> emailAddresses = findAllEmails();
             Set<File> attachments = Sets.newHashSet(report);
             emailService.sendMessage("TEST", "TEST", emailAddresses, attachments);
-
         } catch (Exception e) {
-            getLogger().error(e.getMessage());
+            getLogger().error(e.getMessage(), e);
             eventLogService.registerEvent(e.getMessage(), LocalDateTime.now(), EventLogTypeEnum.ERROR);
 
         }

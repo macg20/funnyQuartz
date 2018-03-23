@@ -1,4 +1,4 @@
-package pl.funnyqrz.dto;
+package pl.funnyqrz.mappers.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;

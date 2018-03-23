@@ -3,11 +3,9 @@ package pl.funnyqrz.entities;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import pl.funnyqrz.enums.EventLogTypeEnum;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
@@ -28,6 +26,10 @@ public class EventLogEntity {
     private String description;
     private LocalDateTime date;
 
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    EventLogTypeEnum type;
+
     public EventLogEntity() {
 
     }
@@ -43,4 +45,9 @@ public class EventLogEntity {
         this.date = date;
     }
 
+    public EventLogEntity(String description, LocalDateTime date, EventLogTypeEnum type) {
+        this.description = description;
+        this.date = date;
+        this.type = type;
+    }
 }

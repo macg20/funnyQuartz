@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional
 public class ReportRendererTest extends AbstractTest {
 
     @Autowired
@@ -38,7 +39,7 @@ public class ReportRendererTest extends AbstractTest {
         // when
         File dummyReportFile = pdfReportRenderer.renderReport(dummyExchnageRate);
         ReportEntity reportEntity = new ReportEntity();
-        reportEntity.setFileContent(FilesUtils.fileToBlob(dummyReportFile));
+        reportEntity.setFileContent(FilesUtils.fileToByteArray(dummyReportFile));
         reportEntity.setFileName(dummyReportFile.getName());
         reportEntity.setCreateDate(LocalDate.now());
         reportEntity = reportRepository.saveAndFlush(reportEntity);
@@ -53,8 +54,6 @@ public class ReportRendererTest extends AbstractTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void saveReportInDatabaseTest() throws IOException, SQLException {
 
         // given
@@ -63,7 +62,7 @@ public class ReportRendererTest extends AbstractTest {
         // when
         File dummyReportFile = pdfReportRenderer.renderReport(dummyExchnageRate);
         ReportEntity reportEntity = new ReportEntity();
-        reportEntity.setFileContent(FilesUtils.fileToBlob(dummyReportFile));
+        reportEntity.setFileContent(FilesUtils.fileToByteArray(dummyReportFile));
         reportEntity.setFileName(dummyReportFile.getName());
         reportEntity.setCreateDate(LocalDate.now());
         reportEntity = reportRepository.saveAndFlush(reportEntity);
@@ -78,7 +77,7 @@ public class ReportRendererTest extends AbstractTest {
         ExchangeRateEntity dummyExchnageRate = new ExchangeRateEntity();
         dummyExchnageRate.setChfExchangeRate(BigDecimal.ONE);
         dummyExchnageRate.setEurExchangeRate(BigDecimal.TEN);
-        dummyExchnageRate.setGbfExchangeRate(BigDecimal.ONE);
+        dummyExchnageRate.setGbpExchangeRate(BigDecimal.ONE);
         dummyExchnageRate.setUsdExchangeRate(BigDecimal.TEN);
         dummyExchnageRate.setCreateDate(LocalDateTime.now());
         return dummyExchnageRate;

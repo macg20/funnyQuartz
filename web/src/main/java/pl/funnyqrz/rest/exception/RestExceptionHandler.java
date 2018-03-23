@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import pl.funnyqrz.exceptions.UserAlreadyRegisterException;
+import pl.funnyqrz.utils.strings.SeparatorUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -32,7 +33,7 @@ public class RestExceptionHandler {
         logger.error(ex.getMessage());
         Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
         String message = constraintViolations.stream().map(constraintViolation -> String.format("%s, %s, %s", constraintViolation.getPropertyPath(),
-                constraintViolation.getInvalidValue(), constraintViolation.getMessage())).collect(Collectors.joining("\n"));
+                constraintViolation.getInvalidValue(), constraintViolation.getMessage())).collect(Collectors.joining(SeparatorUtils.lineSeparator()));
         return new ResponseEntity<ErrorMessage>(new ErrorMessage(message), HttpStatus.BAD_REQUEST);
     }
 
@@ -41,8 +42,8 @@ public class RestExceptionHandler {
         logger.error(ex.getMessage());
         BindingResult result = ex.getBindingResult();
         String message = result.getFieldErrors().stream()
-                .map(fieldError -> String.format("%s", fieldError.getDefaultMessage()))
-                .collect(Collectors.joining("\n"));
+                .map(fieldError -> String.format("%s - %s", fieldError.getDefaultMessage(),fieldError.getField()))
+                .collect(Collectors.joining(SeparatorUtils.lineSeparator()));
         return new ResponseEntity<ErrorMessage>(new ErrorMessage(message), HttpStatus.BAD_REQUEST);
     }
 

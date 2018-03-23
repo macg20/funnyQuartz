@@ -12,4 +12,6 @@ public interface ReportRepository extends JpaRepository<ReportEntity, BigInteger
     Set<ReportEntity> findReportEntitiesByCreateDateIsGreaterThanEqualAndCreateDateIsLessThanEqual(LocalDate firstDate, LocalDate secondDate);
 
     ReportEntity findReportEntityByCreateDate(LocalDate date);
+
+    ReportEntity findReportEntityById(BigInteger id);
 }

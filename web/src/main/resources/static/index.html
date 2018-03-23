@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" href="css/based.css">
+    <title>FunnyQuartz</title>
+</head>
+<body ng-app="funnyqrz" ng-controller="parrentController">
+
+<h1>Funny quartz welcome page!</h1>
+
+<nav class="navbar navbar-inverse"  ng-include="authentication ?  'logoutMenu.html' : 'loginMenu.html'">
+</nav>
+<div ng-view></div>
+
+<script src="webjars/angularjs/1.6.9/angular.js"></script>
+<script src="webjars/angularjs/1.6.9/angular-route.js"></script>
+<script src="webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+<script src="app.js"></script>
+<script src="report/reportController.js"></script>
+<script src="register/registerController.js"></script>
+<script src="account/loginController.js"></script>
+<script src="services/reportService.js"></script>
+<script src="services/authService.js"></script>
+</body>
+</html>

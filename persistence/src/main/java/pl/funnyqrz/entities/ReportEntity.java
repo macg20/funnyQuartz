@@ -31,7 +31,7 @@ public class ReportEntity {
     @GeneratedValue(generator = "report_generator")
     private BigInteger id;
     private String fileName;
-    private Blob fileContent;
+    private byte[] fileContent;
     private LocalDate createDate;
 
 }

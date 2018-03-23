@@ -14,17 +14,21 @@ import java.util.Date;
 @Component
 public class JwtHelper {
 
-    @Value("${app.name}")
     private String appName;
 
-    @Value("${jwt.expires_in}")
     private int expiresIn;
 
-    @Value("${jwt.header}")
     private String authHeader;
 
-    @Value("${jwt.secret_key}")
     private String secretKey;
+
+    public JwtHelper(@Value("${app.name}") String appName, @Value("${jwt.expires_in}")
+                      int expiresIn, @Value("${jwt.header}") String authHeader,  @Value("${jwt.secret_key}")String secretKey) {
+        this.appName = appName;
+        this.expiresIn = expiresIn;
+        this.authHeader = authHeader;
+        this.secretKey = secretKey;
+    }
 
     public String getUsernameFromToken(String token) {
         String username;
@@ -104,7 +108,7 @@ public class JwtHelper {
     }
 
     public String getAuthHeaderFromHeader(HttpServletRequest request) {
-        return request.getHeader("Bearer");
+        return request.getHeader(authHeader);
     }
 
     private Date getExpirationToken(String token) {

@@ -48,7 +48,6 @@ public class SchedulerConfig implements Serializable {
         return factoryBean;
     }
 
-
     @Bean
     public Properties quartzProperties() throws IOException {
         PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();

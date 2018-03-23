@@ -8,5 +8,5 @@ import java.sql.Blob;
 public class ReportContentDto {
 
     private String name;
-    private Blob content;
+    private byte[] content;
 }

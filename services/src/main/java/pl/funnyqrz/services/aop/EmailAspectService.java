@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import pl.funnyqrz.entities.ExchangeRateEntity;
 import pl.funnyqrz.entities.ReportEntity;
@@ -66,7 +67,7 @@ public class EmailAspectService extends AbstractService {
             emailService.sendMessage("TEST", "TEST", emailAddresses, attachments);
 
         } catch (Exception e) {
-            getLogger().error(e.getMessage());
+            getLogger().error(e.getMessage(),e);
             eventLogService.registerEvent(e.getMessage(), LocalDateTime.now(), EventLogTypeEnum.ERROR);
 
         }
@@ -85,7 +86,7 @@ public class EmailAspectService extends AbstractService {
             ReportEntity report = new ReportEntity();
             report.setCreateDate(LocalDate.now());
             report.setFileName(pdfReport.getName());
-            report.setFileContent(FilesUtils.fileToBlob(pdfReport));
+            report.setFileContent(FilesUtils.fileToByteArray(pdfReport));
             return report;
         } catch (Exception e) {
             getLogger().error("Cannot create report entity", e);

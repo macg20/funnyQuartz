@@ -33,13 +33,13 @@ public class MessageServiceTest extends AbstractTest {
 
         //given
         String dummySubject = prepareDummySubject();
-        String dummyContent = prepareDummuContent();
-
+        String dummyContent = prepareDummyContent();
+        String dummyEmail = prepareDummyEmail();
         //when
         MessageService messageMockService = Mockito.mock(MessageService.class);
-        when(messageService.createMessage(dummySubject, dummyContent, Collections.emptyList()))
+        when(messageService.createMessage(dummyEmail,dummySubject, dummyContent, Collections.emptyList()))
                 .thenReturn(prepareDummyMimeMessage());
-        MimeMessage dummyMessage = messageService.createMessage(dummySubject, dummyContent, Collections.emptyList());
+        MimeMessage dummyMessage = messageService.createMessage(dummyEmail,dummySubject, dummyContent, Collections.emptyList());
 
         assertThat(dummyMessage).isNotNull();
         assertThat((String) dummyMessage.getContent()).isEqualTo(DUMMY_CONTENT);
@@ -51,24 +51,28 @@ public class MessageServiceTest extends AbstractTest {
     @Test
     public void createMessageWithException() {
 
-        when(messageService.createMessage(null, null, null)).thenThrow(ApplicationException.class);
+        when(messageService.createMessage(null,null, null, null)).thenThrow(ApplicationException.class);
 
-        assertThrows(ApplicationException.class, () -> messageService.createMessage(null, null, null));
+        assertThrows(ApplicationException.class, () -> messageService.createMessage(null, null, null, null));
     }
 
     private String prepareDummySubject() {
         return "DummySubject";
     }
 
-    private String prepareDummuContent() {
+    private String prepareDummyContent() {
         return "DummyContent";
+    }
+
+    private String prepareDummyEmail() {
+        return "xyz@xyz";
     }
 
     private MimeMessage prepareDummyMimeMessage() throws MessagingException {
         Session session = null;
         MimeMessage mimeMessage = new MimeMessage(session);
         mimeMessage.setSubject(prepareDummySubject());
-        mimeMessage.setText(prepareDummuContent());
+        mimeMessage.setText(prepareDummyContent());
         return mimeMessage;
     }
 

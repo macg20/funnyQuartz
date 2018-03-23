@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import pl.funnyqrz.exceptions.ApplicationException;
 import pl.funnyqrz.services.AbstractService;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.util.Collection;
@@ -27,17 +29,18 @@ public class MessageServiceImpl extends AbstractService implements MessageServic
     }
 
     @Override
-    public MimeMessage createMessage(String subject, String content, Collection<File> attachments) {
+    public MimeMessage createMessage(String recipient, String subject, String content, Collection<File> attachments) {
 
         MimeMessage message = javaMailSender.createMimeMessage();
         try {
-            message.setFrom(from);
-            message.setSubject(subject);
-            message.setText(content);
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true);
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(new InternetAddress(recipient));
+            helper.setSubject(subject);
+            helper.setText(content);
+            helper.setFrom(from);
             attachments.forEach(file ->{
                 try {
-                    mimeMessageHelper.addAttachment(file.getName(),file);
+                    helper.addAttachment(file.getName(),file);
                 } catch (MessagingException e) {
                     throw new ApplicationException("Cannot add attachment");
                 }
@@ -48,6 +51,4 @@ public class MessageServiceImpl extends AbstractService implements MessageServic
 
         return message;
     }
-
-
 }

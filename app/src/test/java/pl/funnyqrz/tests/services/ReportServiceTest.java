@@ -52,12 +52,12 @@ public class ReportServiceTest extends AbstractTest {
         ReportEntity reportEntity = new ReportEntity();
         reportEntity.setFileName("test1");
         reportEntity.setCreateDate(LocalDate.now());
-        reportEntity.setFileContent(new SerialBlob(new byte[5]));
+        reportEntity.setFileContent(new byte[5]);
 
         ReportEntity reportEntity1 = new ReportEntity();
         reportEntity1.setFileName("test2");
         reportEntity1.setCreateDate(LocalDate.now());
-        reportEntity1.setFileContent(new SerialBlob(new byte[5]));
+        reportEntity1.setFileContent(new byte[5]);
 
         return Arrays.asList(reportEntity, reportEntity1);
     }

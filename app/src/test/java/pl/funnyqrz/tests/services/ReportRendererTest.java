@@ -39,7 +39,7 @@ public class ReportRendererTest extends AbstractTest {
         // when
         File dummyReportFile = pdfReportRenderer.renderReport(dummyExchnageRate);
         ReportEntity reportEntity = new ReportEntity();
-        reportEntity.setFileContent(FilesUtils.fileToBlob(dummyReportFile));
+        reportEntity.setFileContent(FilesUtils.fileToByteArray(dummyReportFile));
         reportEntity.setFileName(dummyReportFile.getName());
         reportEntity.setCreateDate(LocalDate.now());
         reportEntity = reportRepository.saveAndFlush(reportEntity);
@@ -62,7 +62,7 @@ public class ReportRendererTest extends AbstractTest {
         // when
         File dummyReportFile = pdfReportRenderer.renderReport(dummyExchnageRate);
         ReportEntity reportEntity = new ReportEntity();
-        reportEntity.setFileContent(FilesUtils.fileToBlob(dummyReportFile));
+        reportEntity.setFileContent(FilesUtils.fileToByteArray(dummyReportFile));
         reportEntity.setFileName(dummyReportFile.getName());
         reportEntity.setCreateDate(LocalDate.now());
         reportEntity = reportRepository.saveAndFlush(reportEntity);

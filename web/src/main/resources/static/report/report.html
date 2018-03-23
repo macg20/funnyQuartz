@@ -1,0 +1,19 @@
+<div class="center">
+    <div class="col-sm-6">
+    <table class="table col-sm-6" >
+        <thead>
+        <tr>
+            <th scope="col">Report date</th>
+            <th scope="col">Report file</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="report in reports">
+            <td>{{report.date}}</td>
+            <td><a id="{{'report-' +report.id}}" ng-click="downloadReport(report.id)">{{report.fileName}}</a></td>
+
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</div>

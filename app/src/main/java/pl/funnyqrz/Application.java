@@ -18,8 +18,6 @@ import pl.funnyqrz.services.account.RoleService;
 import pl.funnyqrz.services.quartz.configuration.SchedulerConfig;
 
 
-
-@EnableWebMvc
 @ComponentScan(basePackages = "pl.funnyqrz")
 @EnableJpaRepositories(basePackages = "pl.funnyqrz.repositories")
 @EntityScan(basePackages = "pl.funnyqrz.entities")

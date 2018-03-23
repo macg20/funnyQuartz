@@ -12,7 +12,7 @@ import java.util.Set;
 
 public interface UserRepository extends JpaRepository<UserEntity, BigInteger> {
     @Query("SELECT u FROM UserEntity u JOIN FETCH u.roles WHERE u.email = :email")
-    Optional<UserEntity> findByEmail(@Param("email")String email);
+    Optional<UserEntity> findByEmail(@Param("email") String email);
 
     @Query("SELECT 1 FROM UserEntity u WHERE u.email = :email")
     Collection<Integer> ifExistsUserEmail(@Param("email") String email);
@@ -20,5 +20,7 @@ public interface UserRepository extends JpaRepository<UserEntity, BigInteger> {
     @Query("SELECT u.email FROM UserEntity u where u.enabled = true")
     Set<String> findAllEmails();
 
+    @Query("SELECT u FROM UserEntity u WHERE u.activateHash = :activateHash")
+    UserEntity findByActivateHash(@Param("activateHash") String activateHash);
 
 }

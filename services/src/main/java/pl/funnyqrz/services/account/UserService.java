@@ -11,4 +11,6 @@ public interface UserService {
 
     Set<String> findAllEmails();
 
+    void activateAccount(String activateHash);
+
 }

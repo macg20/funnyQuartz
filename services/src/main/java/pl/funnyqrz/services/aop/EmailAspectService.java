@@ -8,7 +8,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import pl.funnyqrz.entities.ExchangeRateEntity;
 import pl.funnyqrz.entities.ReportEntity;
@@ -65,9 +64,8 @@ public class EmailAspectService extends AbstractService {
             Set<String> emailAddresses = findAllEmails();
             Set<File> attachments = Sets.newHashSet(report);
             emailService.sendMessage("TEST", "TEST", emailAddresses, attachments);
-
         } catch (Exception e) {
-            getLogger().error(e.getMessage(),e);
+            getLogger().error(e.getMessage(), e);
             eventLogService.registerEvent(e.getMessage(), LocalDateTime.now(), EventLogTypeEnum.ERROR);
 
         }

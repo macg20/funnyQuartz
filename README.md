@@ -5,13 +5,15 @@ Current Technologies:
 - Spring Boot
 - Spring Data JPA
 - Spring AOP
+- Spring Security + JWT
 - Postgres
+- MariaDb (Embedded jar)
+- H2
+
 
 
 TODO:
-- Report Services
 - Schema version (Flyway 5 or Liquibase)
-- Spring Security + JWT
 - TypeScript/Angular 4/5 (fronted)
 - REST services
 - Swagger

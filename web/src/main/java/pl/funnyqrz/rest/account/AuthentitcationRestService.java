@@ -28,7 +28,6 @@ public class AuthentitcationRestService {
         this.userService = userService;
     }
 
-    @ResponseBody
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody JwtRequest request) {
 

@@ -3,7 +3,7 @@ package pl.funnyqrz.entities;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import pl.funnyqrz.enums.EventLogTypeEnum;
+import pl.funnyqrz.enums.EventLogType;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -28,7 +28,7 @@ public class EventLogEntity {
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    EventLogTypeEnum type;
+    EventLogType type;
 
     public EventLogEntity() {
 
@@ -45,7 +45,7 @@ public class EventLogEntity {
         this.date = date;
     }
 
-    public EventLogEntity(String description, LocalDateTime date, EventLogTypeEnum type) {
+    public EventLogEntity(String description, LocalDateTime date, EventLogType type) {
         this.description = description;
         this.date = date;
         this.type = type;

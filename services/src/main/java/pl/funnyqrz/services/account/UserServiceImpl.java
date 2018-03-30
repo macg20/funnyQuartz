@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.funnyqrz.entities.account.RoleEntity;
 import pl.funnyqrz.entities.account.UserEntity;
-import pl.funnyqrz.enums.EventLogTypeEnum;
+import pl.funnyqrz.enums.EventLogType;
 import pl.funnyqrz.exceptions.ActivateAccountException;
 import pl.funnyqrz.exceptions.UserAlreadyRegisterException;
 import pl.funnyqrz.mappers.AbstractMapper;
@@ -132,7 +132,7 @@ public class UserServiceImpl extends AbstractService implements UserDetailsServi
         } catch (Exception e) {
             getLogger().error("An Activation email for has not been sent.", e);
             eventLogService.registerEvent("An Activation email for has not been sent. -" + emailAddress,
-                    LocalDateTime.now(), EventLogTypeEnum.ERROR);
+                    LocalDateTime.now(), EventLogType.ERROR);
         }
     }
 

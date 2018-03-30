@@ -12,7 +12,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import pl.funnyqrz.entities.account.RoleEntity;
 import pl.funnyqrz.services.account.RoleService;
 import pl.funnyqrz.services.quartz.configuration.SchedulerConfig;
@@ -26,7 +25,7 @@ import pl.funnyqrz.services.quartz.configuration.SchedulerConfig;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Application implements CommandLineRunner {
 
-   Logger logger = LoggerFactory.getLogger(Application.class);
+    Logger logger = LoggerFactory.getLogger(Application.class);
 
     private RoleService roleService;
 
@@ -53,7 +52,7 @@ public class Application implements CommandLineRunner {
             roleAdmin.setName("ROLE_ADMIN");
             roleService.save(roleAdmin);
         } catch (DataIntegrityViolationException ex) {
-        logger.error("Error",ex);
-    }
+            logger.error("Error", ex);
+        }
     }
 }

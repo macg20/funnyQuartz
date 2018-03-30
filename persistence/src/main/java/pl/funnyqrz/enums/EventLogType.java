@@ -1,13 +1,13 @@
 package pl.funnyqrz.enums;
 
-public enum EventLogTypeEnum {
+public enum EventLogType {
 
     INFO("INFO"),
     ERROR("ERROR");
 
     private String type;
 
-    EventLogTypeEnum(String type) {
+    EventLogType(String type) {
         this.type = type;
     }
 }

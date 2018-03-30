@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import pl.funnyqrz.entities.ExchangeRateEntity;
 import pl.funnyqrz.entities.ReportEntity;
-import pl.funnyqrz.enums.EventLogTypeEnum;
+import pl.funnyqrz.enums.EventLogType;
 import pl.funnyqrz.exceptions.ApplicationException;
 import pl.funnyqrz.exceptions.NotFoundDatabaseRecord;
 import pl.funnyqrz.services.AbstractService;
@@ -66,7 +66,7 @@ public class EmailAspectService extends AbstractService {
             emailService.sendMessage("TEST", "TEST", emailAddresses, attachments);
         } catch (Exception e) {
             getLogger().error(e.getMessage(), e);
-            eventLogService.registerEvent(e.getMessage(), LocalDateTime.now(), EventLogTypeEnum.ERROR);
+            eventLogService.registerEvent(e.getMessage(), LocalDateTime.now(), EventLogType.ERROR);
 
         }
         report.deleteOnExit();
